@@ -9,10 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.openx.zoo</groupId>
-	<artifactId>api-zoo-gestion</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>api-zoo-gestion</name>
-	<description>api-zoo-gestion</description>
+	<artifactId>api-zoo</artifactId>
+	<version>1.0</version>
+	<name>api-zoo</name>
+	<description>api-zoo</description>
+	<packaging>war</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -38,7 +39,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -55,11 +55,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -68,7 +63,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<finalName>${project.name}</finalName>
 					<excludes>
+
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>

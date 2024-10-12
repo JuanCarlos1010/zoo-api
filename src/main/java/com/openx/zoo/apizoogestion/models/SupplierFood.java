@@ -5,12 +5,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "supplier-foods")
+@Table(name = "supplier_foods")
 public class SupplierFood {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_supplier_food")
     private long id;
 
     @OneToOne
@@ -22,7 +21,7 @@ public class SupplierFood {
     private Food food;
 
     @Column(name = "date_of_supply")
-    private String datOfSupply;
+    private String dateOfSupply;
 
     private int amount;
 }

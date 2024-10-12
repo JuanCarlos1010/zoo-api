@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface SupplierFoodRepository extends JpaRepository<SupplierFood, Long> {
-    Optional<SupplierFood> findBydateOfSupply(LocalDateTime dateOfSupply);
+    //Optional<SupplierFood> findBydateOfSupply(LocalDateTime dateOfSupply);
 }

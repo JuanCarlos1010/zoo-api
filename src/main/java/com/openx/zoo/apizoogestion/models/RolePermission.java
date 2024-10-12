@@ -10,7 +10,7 @@ public class RolePermission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_permission")
+    @Column(name = "id")
     private long id;
 
     @OneToOne

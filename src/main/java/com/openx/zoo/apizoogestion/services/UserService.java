@@ -8,7 +8,6 @@ import com.openx.zoo.apizoogestion.repositories.RoleRepository;
 import com.openx.zoo.apizoogestion.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
