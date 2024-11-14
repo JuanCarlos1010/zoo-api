@@ -1,9 +1,9 @@
 package com.openx.zoo.api.services;
 
-import com.openx.zoo.api.exceptions.NotFoundExeption;
-import com.openx.zoo.api.models.Animal;
-import com.openx.zoo.api.models.Food;
-import com.openx.zoo.api.models.FoodAnimal;
+import com.openx.zoo.api.exceptions.NotFoundException;
+import com.openx.zoo.api.entities.Animal;
+import com.openx.zoo.api.entities.Food;
+import com.openx.zoo.api.entities.FoodAnimal;
 import com.openx.zoo.api.repositories.AnimalRepository;
 import com.openx.zoo.api.repositories.FoodAnimalRepository;
 import com.openx.zoo.api.repositories.FoodRepository;
@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Service
 public class FoodAnimalService {
-
     private final FoodAnimalRepository foodAnimalRepository;
     private final FoodRepository foodRepository;
     private final AnimalRepository animalRepository;
@@ -26,34 +25,34 @@ public class FoodAnimalService {
         this.animalRepository = animalRepository;
     }
 
-    public List<FoodAnimal> findAllFoodAnimals(){
+    public List<FoodAnimal> findAllFoodAnimals() {
         try {
             return foodAnimalRepository.findAll();
-        } catch (Exception e){
-            throw new NotFoundExeption(e);
+        } catch (Exception e) {
+            throw new NotFoundException(e);
         }
     }
 
-    public FoodAnimal getFoodAnimalById(Long id){
+    public FoodAnimal getFoodAnimalById(Long id) {
         return foodAnimalRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("AlimentoAnimal no encontrado con id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("AlimentoAnimal no encontrado con id: " + id));
     }
 
     @Transactional
-    public FoodAnimal createFoodAnimal(FoodAnimal createFoodAnimal){
+    public FoodAnimal createFoodAnimal(FoodAnimal createFoodAnimal) {
         Animal animal = createFoodAnimal.getAnimal();
         Food food = createFoodAnimal.getFood();
         if ((animal == null) && (food == null)) {
-            throw new NotFoundExeption("El campo animal o alimento es obligatorio");
+            throw new NotFoundException("El campo animal o alimento es obligatorio");
         } else {
             Optional<Animal> animalOtp = animalRepository.findById(createFoodAnimal.getId());
             if (animalOtp.isEmpty()) {
                 assert animal != null;
-                throw new NotFoundExeption("Animal no encontrado con id: " + animal.getId());
+                throw new NotFoundException("Animal no encontrado con id: " + animal.getId());
             } else {
                 Optional<Food> foodOpt = foodRepository.findById(createFoodAnimal.getId());
                 if (foodOpt.isEmpty()) {
-                    throw new NotFoundExeption("Alimento no encontrado con id: " + food.getId());
+                    throw new NotFoundException("Alimento no encontrado con id: " + food.getId());
                 }
                 createFoodAnimal.setAnimal(animalOtp.get());
                 createFoodAnimal.setFood(foodOpt.get());
@@ -66,19 +65,19 @@ public class FoodAnimalService {
     public FoodAnimal updateFoodAnimal(FoodAnimal updateFoodAnimal) {
         Animal animal = updateFoodAnimal.getAnimal();
         Food food = updateFoodAnimal.getFood();
-        if ((animal == null) && (food == null)){
-            throw new NotFoundExeption("El campo animal o alimento es obligatorio");
+        if ((animal == null) && (food == null)) {
+            throw new NotFoundException("El campo animal o alimento es obligatorio");
         }
         return foodAnimalRepository.findById(updateFoodAnimal.getId())
                 .map(foodAnimal -> {
                     foodAnimal.setPortion(updateFoodAnimal.getPortion());
                     return foodAnimalRepository.save(foodAnimal);
                 })
-                .orElseThrow(() -> new NotFoundExeption("AnimalAlimento no encontrado con el id: " + updateFoodAnimal.getId()));
+                .orElseThrow(() -> new NotFoundException("AnimalAlimento no encontrado con el id: " + updateFoodAnimal.getId()));
     }
 
     @Transactional
-    public boolean deleteFoodAnimal(Long id){
+    public boolean deleteFoodAnimal(Long id) {
         FoodAnimal foodAnimal = getFoodAnimalById(id);
         foodAnimalRepository.delete(foodAnimal);
         return true;

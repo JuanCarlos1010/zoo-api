@@ -1,7 +1,7 @@
 package com.openx.zoo.api.services;
 
-import com.openx.zoo.api.exceptions.NotFoundExeption;
-import com.openx.zoo.api.models.Employee;
+import com.openx.zoo.api.exceptions.NotFoundException;
+import com.openx.zoo.api.entities.Employee;
 import com.openx.zoo.api.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -10,37 +10,36 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
-
     private final EmployeeRepository employeeRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> findAllEmployees(){
+    public List<Employee> findAllEmployees() {
         try {
             return employeeRepository.findAll();
-        } catch (Exception e){
-            throw new NotFoundExeption(e);
+        } catch (Exception e) {
+            throw new NotFoundException(e);
         }
     }
 
-    public Employee getEmployeeById(Long id){
+    public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
-                .orElseThrow(()-> new NotFoundExeption("Empleado no encontrado con el id: " + id));
+                .orElseThrow(() -> new NotFoundException("Empleado no encontrado con el id: " + id));
     }
 
     @Transactional
-    public Employee createEmployee(Employee employee){
+    public Employee createEmployee(Employee employee) {
         Optional<Employee> optionalEmployee = employeeRepository.findByName(employee.getName());
-        if (optionalEmployee.isPresent()){
-            throw new NotFoundExeption("Empleado con el nombre " + employee.getName() + " ya existe.");
+        if (optionalEmployee.isPresent()) {
+            throw new NotFoundException("Empleado con el nombre " + employee.getName() + " ya existe.");
         }
         return employeeRepository.save(employee);
     }
 
     @Transactional
-    public Employee updateEmployee(Employee employee){
+    public Employee updateEmployee(Employee employee) {
         return employeeRepository.findById(employee.getId())
                 .map(item -> {
                     item.setName(employee.getName());
@@ -50,11 +49,11 @@ public class EmployeeService {
                     item.setDescription(employee.getDescription());
                     return employeeRepository.save(item);
                 })
-                .orElseThrow(() -> new NotFoundExeption("Empleado no econtrado con id: " + employee.getId()));
+                .orElseThrow(() -> new NotFoundException("Empleado no econtrado con id: " + employee.getId()));
     }
 
     @Transactional
-    public boolean deleteEmployee(Long id){
+    public boolean deleteEmployee(Long id) {
         Employee employee = getEmployeeById(id);
         employeeRepository.delete(employee);
         return true;

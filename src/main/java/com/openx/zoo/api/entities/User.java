@@ -1,4 +1,4 @@
-package com.openx.zoo.api.models;
+package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,5 +24,4 @@ public class User {
 
     @Column(name = "document_number")
     private String documentNumber;
-
 }

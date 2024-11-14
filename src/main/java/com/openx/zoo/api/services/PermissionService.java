@@ -1,10 +1,10 @@
 package com.openx.zoo.api.services;
 
 import com.openx.zoo.api.exceptions.InternalServerException;
-import com.openx.zoo.api.exceptions.NotFoundExeption;
-import com.openx.zoo.api.models.Permission;
-import com.openx.zoo.api.models.Role;
-import com.openx.zoo.api.models.RolePermission;
+import com.openx.zoo.api.exceptions.NotFoundException;
+import com.openx.zoo.api.entities.Permission;
+import com.openx.zoo.api.entities.Role;
+import com.openx.zoo.api.entities.RolePermission;
 import com.openx.zoo.api.repositories.RolePermissionRepository;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public class PermissionService {
 
     public Permission findPermissionById(long id) {
         return rolePermissionRepository.findPermissionById(id)
-                .orElseThrow(() -> new NotFoundExeption("Permission not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Permission not found with id: " + id));
     }
 
     public Iterable<Permission> findPermissionsByRole(long roleId) {
@@ -32,12 +32,12 @@ public class PermissionService {
 
     public Role findRoleById(long id) {
         return rolePermissionRepository.findRoleById(id)
-                .orElseThrow(() -> new NotFoundExeption("Role not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Role not found with id: " + id));
     }
 
     public Role findRoleByName(String name) {
         return rolePermissionRepository.findRoleByName(name)
-                .orElseThrow(() -> new NotFoundExeption("Role not found with name: " + name));
+                .orElseThrow(() -> new NotFoundException("Role not found with name: " + name));
     }
 
     public Role createRole(Role role) {

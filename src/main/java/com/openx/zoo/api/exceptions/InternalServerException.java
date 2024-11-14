@@ -1,6 +1,6 @@
 package com.openx.zoo.api.exceptions;
 
-public class InternalServerException extends RuntimeException{
+public class InternalServerException extends RuntimeException {
     public InternalServerException() {
         super();
     }

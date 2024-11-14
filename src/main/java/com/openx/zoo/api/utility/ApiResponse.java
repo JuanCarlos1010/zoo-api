@@ -3,7 +3,7 @@ package com.openx.zoo.api.utility;
 import lombok.Data;
 
 @Data
-public class ApiResponse <T>{
+public class ApiResponse<T> {
     private boolean completed;
     private String message;
     private T body;

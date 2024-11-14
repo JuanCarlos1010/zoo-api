@@ -1,8 +1,8 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.models.Permission;
-import com.openx.zoo.api.models.Role;
-import com.openx.zoo.api.models.RolePermission;
+import com.openx.zoo.api.entities.Permission;
+import com.openx.zoo.api.entities.Role;
+import com.openx.zoo.api.entities.RolePermission;
 import com.openx.zoo.api.services.PermissionService;
 import com.openx.zoo.api.utility.ApiResponse;
 import org.springframework.http.ResponseEntity;

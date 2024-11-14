@@ -1,8 +1,7 @@
-package com.openx.zoo.api.models;
+package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data

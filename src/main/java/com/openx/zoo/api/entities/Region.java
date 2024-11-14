@@ -1,16 +1,16 @@
-package com.openx.zoo.api.models;
+package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "regions")
+public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
+    @Column(name = "region_id")
     private long id;
 
     private String name;

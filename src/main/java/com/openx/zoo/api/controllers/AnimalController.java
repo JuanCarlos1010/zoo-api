@@ -1,6 +1,6 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.models.Animal;
+import com.openx.zoo.api.entities.Animal;
 import com.openx.zoo.api.services.AnimalService;
 import com.openx.zoo.api.utility.ApiResponse;
 import org.springframework.http.ResponseEntity;

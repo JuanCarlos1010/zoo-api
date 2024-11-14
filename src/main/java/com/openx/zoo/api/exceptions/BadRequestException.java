@@ -1,6 +1,6 @@
 package com.openx.zoo.api.exceptions;
 
-public class BadRequestException extends RuntimeException{
+public class BadRequestException extends RuntimeException {
     public BadRequestException() {
         super();
     }

@@ -2,8 +2,8 @@ package com.openx.zoo.api.services;
 
 import com.openx.zoo.api.exceptions.BadRequestException;
 import com.openx.zoo.api.exceptions.InternalServerException;
-import com.openx.zoo.api.exceptions.NotFoundExeption;
-import com.openx.zoo.api.models.*;
+import com.openx.zoo.api.exceptions.NotFoundException;
+import com.openx.zoo.api.entities.*;
 import com.openx.zoo.api.repositories.RoleRepository;
 import com.openx.zoo.api.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
@@ -22,28 +21,28 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public List<User> findAllUsers(){
+    public List<User> findAllUsers() {
         try {
             return userRepository.findAll();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new InternalServerException(e);
         }
     }
 
-    public User getUserById(Long id){
+    public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundExeption("Usuario no encontrado con el id: " + id));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con el id: " + id));
     }
 
     @Transactional
-    public User createUser(User user){
+    public User createUser(User user) {
         Role role = user.getRole();
         if (role == null) {
-            throw new NotFoundExeption("El campo rol es obligatorio");
+            throw new NotFoundException("El campo rol es obligatorio");
         } else {
             Optional<Role> roleOpt = roleRepository.findById(user.getId());
             if (roleOpt.isEmpty()) {
-                throw new NotFoundExeption("Rol no encontrado con id: " + role.getId());
+                throw new NotFoundException("Rol no encontrado con id: " + role.getId());
             }
             Optional<User> userOpt = userRepository.findByUsername(user.getUsername());
             if (userOpt.isPresent()) {
@@ -64,7 +63,7 @@ public class UserService {
                 .map(user -> {
                     Optional<Role> roleOpt = roleRepository.findById(role.getId());
                     if (roleOpt.isEmpty()) {
-                        throw new NotFoundExeption("Rol no encontrada con id: " + role.getId());
+                        throw new NotFoundException("Rol no encontrada con id: " + role.getId());
                     }
                     user.setUsername(updateUser.getUsername());
                     user.setPassword(updateUser.getPassword());
@@ -73,11 +72,11 @@ public class UserService {
                     user.setAddress(updateUser.getAddress());
                     return userRepository.save(user);
                 })
-                .orElseThrow(() -> new NotFoundExeption("Usuario no encontrado con el id: " + updateUser.getId()));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con el id: " + updateUser.getId()));
     }
 
     @Transactional
-    public boolean deleteUser(Long id){
+    public boolean deleteUser(Long id) {
         User user = getUserById(id);
         userRepository.delete(user);
         return true;

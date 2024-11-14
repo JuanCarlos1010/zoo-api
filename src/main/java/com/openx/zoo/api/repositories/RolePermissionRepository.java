@@ -1,8 +1,8 @@
 package com.openx.zoo.api.repositories;
 
-import com.openx.zoo.api.models.Permission;
-import com.openx.zoo.api.models.Role;
-import com.openx.zoo.api.models.RolePermission;
+import com.openx.zoo.api.entities.Permission;
+import com.openx.zoo.api.entities.Role;
+import com.openx.zoo.api.entities.RolePermission;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
