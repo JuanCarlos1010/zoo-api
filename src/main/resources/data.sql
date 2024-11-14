@@ -26,4 +26,5 @@ INSERT INTO users(role_id, username, password) VALUES (2, 'testing', 'testing');
 
 # select * from roles;
 # select * from role_permissions;
-# select * from users;
+
+#FIN
