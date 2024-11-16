@@ -43,9 +43,10 @@ public class SupplierService {
         return supplierRepository.findById(updateSupplier.getId())
                 .map(supplier -> {
                     supplier.setName(updateSupplier.getName());
-                    supplier.setMail(updateSupplier.getMail());
+                    supplier.setEmail(updateSupplier.getEmail());
                     supplier.setPhone(updateSupplier.getPhone());
                     supplier.setAddress(updateSupplier.getAddress());
+                    supplier.setUpdatedAt(updateSupplier.getUpdatedAt());
                     return supplierRepository.save(supplier);
                 })
                 .orElseThrow((() -> new NotFoundException("Proveedor no encontrado con el id: " + updateSupplier.getId())));

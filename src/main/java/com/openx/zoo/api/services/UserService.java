@@ -70,6 +70,7 @@ public class UserService {
                     user.setPhone(updateUser.getPhone());
                     user.setDocumentNumber(updateUser.getDocumentNumber());
                     user.setAddress(updateUser.getAddress());
+                    user.setUpdatedAt(updateUser.getUpdatedAt());
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con el id: " + updateUser.getId()));

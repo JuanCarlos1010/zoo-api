@@ -4,6 +4,7 @@ import com.openx.zoo.api.dto.RegionDTO;
 import com.openx.zoo.api.mappers.RegionMapper;
 import com.openx.zoo.api.services.RegionService;
 import com.openx.zoo.api.utility.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -34,17 +35,17 @@ public class RegionController {
     }
 
     @PostMapping(path = "")
-    ResponseEntity<ApiResponse<RegionDTO>> createRegion(@RequestBody RegionDTO regionDTO) {
-        RegionDTO regionCreate = regionMapper.toDTO(regionService.createRegion(regionMapper.toEntity(regionDTO)));
-        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(regionCreate);
-        return ResponseEntity.ok(apiResponse);
+    ResponseEntity<ApiResponse<RegionDTO>> createRegion(@RequestBody RegionDTO body) {
+        RegionDTO region = regionMapper.toDTO(regionService.createRegion(regionMapper.toEntity(body)));
+        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(region);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping(path = "")
-    ResponseEntity<ApiResponse<RegionDTO>> updateRegion(@RequestBody RegionDTO regionDTO) {
-        RegionDTO regionUpdate = regionMapper.toDTO(regionService.updateRegion(regionMapper.toEntity(regionDTO)));
-        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(regionUpdate);
-        return ResponseEntity.ok(apiResponse);
+    ResponseEntity<ApiResponse<RegionDTO>> updateRegion(@RequestBody RegionDTO body) {
+        RegionDTO region = regionMapper.toDTO(regionService.updateRegion(regionMapper.toEntity(body)));
+        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(region);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @DeleteMapping("/{id}")

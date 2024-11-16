@@ -1,8 +1,10 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.entities.Food;
+import com.openx.zoo.api.dto.FoodDTO;
+import com.openx.zoo.api.mappers.FoodMapper;
 import com.openx.zoo.api.services.FoodService;
 import com.openx.zoo.api.utility.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -10,39 +12,40 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/foods")
 public class FoodController {
-
     private final FoodService foodService;
+    private final FoodMapper foodMapper;
 
-    public FoodController(FoodService foodService) {
+    public FoodController(FoodService foodService, FoodMapper foodMapper) {
         this.foodService = foodService;
+        this.foodMapper = foodMapper;
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<ApiResponse<List<Food>>> findAllFoods(){
-        List<Food> foods = foodService.findAllFoods();
-        ApiResponse<List<Food>> listApiResponse = new ApiResponse<>(foods);
+    public ResponseEntity<ApiResponse<List<FoodDTO>>> findAllFoods(){
+        List<FoodDTO> foods = foodMapper.toDTO(foodService.findAllFoods());
+        ApiResponse<List<FoodDTO>> listApiResponse = new ApiResponse<>(foods);
         return ResponseEntity.ok(listApiResponse);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ApiResponse<Food>> finFoodById(@PathVariable Long id){
-        Food food = foodService.getFoodById(id);
-        ApiResponse<Food> apiResponse = new ApiResponse<>(food);
+    public ResponseEntity<ApiResponse<FoodDTO>> finFoodById(@PathVariable Long id){
+        FoodDTO food = foodMapper.toDTO(foodService.getFoodById(id));
+        ApiResponse<FoodDTO> apiResponse = new ApiResponse<>(food);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<ApiResponse<Food>> createFood(@RequestBody Food food){
-        Food foodCreate = foodService.createFood(food);
-        ApiResponse<Food> apiResponse = new ApiResponse<>(foodCreate);
-        return ResponseEntity.ok(apiResponse);
+    public ResponseEntity<ApiResponse<FoodDTO>> createFood(@RequestBody FoodDTO body){
+        FoodDTO food = foodMapper.toDTO(foodService.createFood(foodMapper.toEntity(body)));
+        ApiResponse<FoodDTO> apiResponse = new ApiResponse<>(food);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping(path = "")
-    public ResponseEntity<ApiResponse<Food>> updateFood(@RequestBody Food food){
-        Food foodUpdate = foodService.updateFood(food);
-        ApiResponse<Food> apiResponse = new ApiResponse<>(foodUpdate);
-        return ResponseEntity.ok(apiResponse);
+    public ResponseEntity<ApiResponse<FoodDTO>> updateFood(@RequestBody FoodDTO body){
+        FoodDTO food = foodMapper.toDTO(foodService.updateFood(foodMapper.toEntity(body)));
+        ApiResponse<FoodDTO> apiResponse = new ApiResponse<>(food);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @DeleteMapping(path = "/{id}")

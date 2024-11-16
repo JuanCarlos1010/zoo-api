@@ -69,6 +69,7 @@ public class ZoneEmployeeService {
         return zoneEmployeeRepository.findById(createZoneEmployee.getId())
                 .map(zoneEmployee -> {
                     zoneEmployee.setAssignmentDate(zoneEmployee.getAssignmentDate());
+                    zoneEmployee.setUpdatedAt(zoneEmployee.getUpdatedAt());
                     return zoneEmployeeRepository.save(zoneEmployee);
                 })
                 .orElseThrow(() -> new NotFoundException("ZonaEmpleado no encontrado con el id: " + createZoneEmployee.getId()));

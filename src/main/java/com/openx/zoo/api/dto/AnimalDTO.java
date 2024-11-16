@@ -14,8 +14,8 @@ public class AnimalDTO {
     private String gender;
     private String species;
     private int age;
-    private ZoneDTO zone;
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private ZoneDTO zone;
 }

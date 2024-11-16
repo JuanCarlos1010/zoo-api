@@ -41,12 +41,12 @@ public class AnimalService {
             throw new NotFoundException("El campo zona es obligatorio");
         } else {
             Optional<Zone> zoneOpt = zoneRepository.findById(zone.getId());
-            if (zoneOpt.isPresent()) {
+            if (zoneOpt.isEmpty()) {
                 throw new NotFoundException("Zona no encontrada con id: " + zone.getId());
             }
             Optional<Animal> animalOpt = animalRepository.getByName(animal.getName());
             if (animalOpt.isPresent()) {
-                throw new NotFoundException("Animal con el nombre " + animal.getName() + " ya existe.");
+                throw new NotFoundException("Animal con el nombre " + animal.getName() + " ya existe");
             }
         }
         animal.setZone(animal.getZone());
@@ -55,13 +55,19 @@ public class AnimalService {
 
     @Transactional
     public Animal updateAnimal(Animal updateAnimal) {
+        Zone zone = updateAnimal.getZone();
+        if (zone == null) {
+            throw new NotFoundException("El campo zona es obligatorio");
+        }
         return animalRepository.findById(updateAnimal.getId())
                 .map(animal -> {
                     updateAnimal.setName(updateAnimal.getName());
-                    updateAnimal.setSpecies(updateAnimal.getSpecies());
                     updateAnimal.setBirthdate(updateAnimal.getBirthdate());
-                    updateAnimal.setGender(updateAnimal.getGender());
                     updateAnimal.setEntryDate(updateAnimal.getEntryDate());
+                    updateAnimal.setGender(updateAnimal.getGender());
+                    updateAnimal.setSpecies(updateAnimal.getSpecies());
+                    updateAnimal.setAge(updateAnimal.getAge());
+                    updateAnimal.setUpdatedAt(updateAnimal.getUpdatedAt());
                     return animalRepository.save(animal);
                 })
                 .orElseThrow(() -> new NotFoundException("Animal no econtrado con id: " + updateAnimal.getId()));

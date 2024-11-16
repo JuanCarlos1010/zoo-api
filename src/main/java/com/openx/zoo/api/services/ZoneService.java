@@ -47,7 +47,7 @@ public class ZoneService {
             }
             Optional<Zone> zonaOpt = zoneRepository.findByName(zone.getName());
             if (zonaOpt.isPresent()) {
-                throw new BadRequestException("Zona con el nombre " + zone.getName() + " ya existe.");
+                throw new BadRequestException("Zona con el nombre " + zone.getName() + " ya existe");
             }
             zone.setRegion(regionOpt.get());
             return zoneRepository.save(zone);
@@ -67,8 +67,9 @@ public class ZoneService {
                         throw new NotFoundException("Region no encontrada con id: " + region.getId());
                     }
                     zone.setName(updateZone.getName());
-                    zone.setType(updateZone.getType());
                     zone.setCapacity(updateZone.getCapacity());
+                    zone.setType(updateZone.getType());
+                    zone.setUpdatedAt(updateZone.getUpdatedAt());
                     zone.setRegion(regionOpt.get());
                     return zoneRepository.save(zone);
                 })

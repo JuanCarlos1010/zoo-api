@@ -11,6 +11,6 @@ public class ZoneEmployeeDTO {
     private LocalDateTime assignmentDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private ZoneDTO zone;
+    private ShoppinDTO zone;
     private EmployeeDTO employee;
 }

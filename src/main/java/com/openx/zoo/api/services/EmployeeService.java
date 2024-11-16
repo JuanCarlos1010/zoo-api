@@ -47,6 +47,7 @@ public class EmployeeService {
                     item.setPhone(employee.getPhone());
                     item.setAddress(employee.getAddress());
                     item.setDescription(employee.getDescription());
+                    item.setUpdatedAt(employee.getUpdatedAt());
                     return employeeRepository.save(item);
                 })
                 .orElseThrow(() -> new NotFoundException("Empleado no econtrado con id: " + employee.getId()));

@@ -1,8 +1,10 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.entities.ZoneEmployee;
+import com.openx.zoo.api.dto.ZoneEmployeeDTO;
+import com.openx.zoo.api.mappers.ZoneEmployeeMapper;
 import com.openx.zoo.api.services.ZoneEmployeeService;
 import com.openx.zoo.api.utility.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -12,37 +14,39 @@ import java.util.List;
 public class ZoneEmployeeController {
 
     private final ZoneEmployeeService zoneEmployeeService;
+    private final ZoneEmployeeMapper zoneEmployeeMapper;
 
-    public ZoneEmployeeController(ZoneEmployeeService zoneEmployeeService) {
+    public ZoneEmployeeController(ZoneEmployeeService zoneEmployeeService, ZoneEmployeeMapper zoneEmployeeMapper) {
         this.zoneEmployeeService = zoneEmployeeService;
+        this.zoneEmployeeMapper = zoneEmployeeMapper;
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<ApiResponse<List<ZoneEmployee>>> findAllZoneEmployees() {
-        List<ZoneEmployee> zoneEmployees = zoneEmployeeService.findAllZoneEmployees();
-        ApiResponse<List<ZoneEmployee>> listApiResponse = new ApiResponse<>(zoneEmployees);
+    public ResponseEntity<ApiResponse<List<ZoneEmployeeDTO>>> findAllZoneEmployees() {
+        List<ZoneEmployeeDTO> zoneEmployees = zoneEmployeeMapper.toDTO(zoneEmployeeService.findAllZoneEmployees());
+        ApiResponse<List<ZoneEmployeeDTO>> listApiResponse = new ApiResponse<>(zoneEmployees);
         return ResponseEntity.ok(listApiResponse);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ApiResponse<ZoneEmployee>> getZoneEmployeeById(@PathVariable Long id) {
-        ZoneEmployee zoneEmployee = zoneEmployeeService.getZoneEmployeeById(id);
-        ApiResponse<ZoneEmployee> apiResponse = new ApiResponse<>(zoneEmployee);
+    public ResponseEntity<ApiResponse<ZoneEmployeeDTO>> getZoneEmployeeById(@PathVariable Long id) {
+        ZoneEmployeeDTO zoneEmployee = zoneEmployeeMapper.toDTO(zoneEmployeeService.getZoneEmployeeById(id));
+        ApiResponse<ZoneEmployeeDTO> apiResponse = new ApiResponse<>(zoneEmployee);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<ApiResponse<ZoneEmployee>> createZoneEmployee(@RequestBody ZoneEmployee zoneEmployee) {
-        ZoneEmployee zoneEmployeeCreate = zoneEmployeeService.createZoneEmployee(zoneEmployee);
-        ApiResponse<ZoneEmployee> apiResponse = new ApiResponse<>(zoneEmployeeCreate);
-        return ResponseEntity.ok(apiResponse);
+    public ResponseEntity<ApiResponse<ZoneEmployeeDTO>> createZoneEmployee(@RequestBody ZoneEmployeeDTO body) {
+        ZoneEmployeeDTO zoneEmployee = zoneEmployeeMapper.toDTO(zoneEmployeeService.createZoneEmployee(zoneEmployeeMapper.toEntity(body)));
+        ApiResponse<ZoneEmployeeDTO> apiResponse = new ApiResponse<>(zoneEmployee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping(path = "")
-    public ResponseEntity<ApiResponse<ZoneEmployee>> updateZoneEmployee(@RequestBody ZoneEmployee zoneEmployee) {
-        ZoneEmployee zoneEmployeeUpdate = zoneEmployeeService.updateZoneEmployee(zoneEmployee);
-        ApiResponse<ZoneEmployee> apiResponse = new ApiResponse<>(zoneEmployeeUpdate);
-        return ResponseEntity.ok(apiResponse);
+    public ResponseEntity<ApiResponse<ZoneEmployeeDTO>> updateZoneEmployee(@RequestBody ZoneEmployeeDTO body) {
+        ZoneEmployeeDTO zoneEmployee = zoneEmployeeMapper.toDTO(zoneEmployeeService.updateZoneEmployee(zoneEmployeeMapper.toEntity(body)));
+        ApiResponse<ZoneEmployeeDTO> apiResponse = new ApiResponse<>(zoneEmployee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @DeleteMapping(path = "/{id}")

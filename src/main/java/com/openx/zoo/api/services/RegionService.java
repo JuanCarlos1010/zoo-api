@@ -45,6 +45,7 @@ public class RegionService {
         return regionRepository.findById(updateRegion.getId())
                 .map(region -> {
                     region.setName(updateRegion.getName());
+                    region.setUpdatedAt(updateRegion.getUpdatedAt());
                     return regionRepository.save(region);
                 })
                 .orElseThrow(() -> new NotFoundException("Region no encontrada con el id: " + updateRegion.getId()));

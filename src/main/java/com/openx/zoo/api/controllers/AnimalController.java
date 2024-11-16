@@ -43,7 +43,7 @@ public class AnimalController {
 
     @PutMapping(path = "")
     public ResponseEntity<ApiResponse<AnimalDTO>> updateAnimal(@RequestBody AnimalDTO body){
-        AnimalDTO animal = animalMapper.toDTO(animalService.createAnimal(animalMapper.toEntity(body)));
+        AnimalDTO animal = animalMapper.toDTO(animalService.updateAnimal(animalMapper.toEntity(body)));
         ApiResponse<AnimalDTO> apiResponse = new ApiResponse<>(animal);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }

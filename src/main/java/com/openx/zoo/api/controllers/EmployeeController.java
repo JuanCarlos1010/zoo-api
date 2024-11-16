@@ -36,15 +36,15 @@ public class EmployeeController {
 
     @PostMapping(path = "")
     ResponseEntity<ApiResponse<EmployeeDTO>> createEmployee(@RequestBody EmployeeDTO body) {
-        EmployeeDTO employeeCreate = employeeMapper.toDTO(employeeService.createEmployee(employeeMapper.toEntity(body)));
-        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employeeCreate);
+        EmployeeDTO employee = employeeMapper.toDTO(employeeService.createEmployee(employeeMapper.toEntity(body)));
+        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping(path = "")
     ResponseEntity<ApiResponse<EmployeeDTO>> updateEmployee(@RequestBody EmployeeDTO body) {
-        EmployeeDTO employeeCreate = employeeMapper.toDTO(employeeService.updateEmployee(employeeMapper.toEntity(body)));
-        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employeeCreate);
+        EmployeeDTO employee = employeeMapper.toDTO(employeeService.updateEmployee(employeeMapper.toEntity(body)));
+        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employee);
         return ResponseEntity.ok(apiResponse);
     }
 

@@ -40,8 +40,8 @@ public class FoodAnimalService {
 
     @Transactional
     public FoodAnimal createFoodAnimal(FoodAnimal createFoodAnimal) {
-        Animal animal = createFoodAnimal.getAnimal();
         Food food = createFoodAnimal.getFood();
+        Animal animal = createFoodAnimal.getAnimal();
         if ((animal == null) && (food == null)) {
             throw new NotFoundException("El campo animal o alimento es obligatorio");
         } else {
@@ -71,6 +71,7 @@ public class FoodAnimalService {
         return foodAnimalRepository.findById(updateFoodAnimal.getId())
                 .map(foodAnimal -> {
                     foodAnimal.setPortion(updateFoodAnimal.getPortion());
+                    foodAnimal.setUpdatedAt(updateFoodAnimal.getUpdatedAt());
                     return foodAnimalRepository.save(foodAnimal);
                 })
                 .orElseThrow(() -> new NotFoundException("AnimalAlimento no encontrado con el id: " + updateFoodAnimal.getId()));
