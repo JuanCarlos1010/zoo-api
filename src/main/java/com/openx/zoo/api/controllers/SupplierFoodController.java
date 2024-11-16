@@ -1,6 +1,6 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.entities.SupplierFood;
+import com.openx.zoo.api.entities.ShoppingItem;
 import com.openx.zoo.api.services.SupplierFoodService;
 import com.openx.zoo.api.utility.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -18,30 +18,30 @@ public class SupplierFoodController {
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<ApiResponse<List<SupplierFood>>> finAllSupplierFoods() {
-        List<SupplierFood> supplierFoods = supplierFoodService.findAllSupplierFoods();
-        ApiResponse<List<SupplierFood>> listApiResponse = new ApiResponse<>(supplierFoods);
+    public ResponseEntity<ApiResponse<List<ShoppingItem>>> finAllSupplierFoods() {
+        List<ShoppingItem> shoppingItems = supplierFoodService.findAllSupplierFoods();
+        ApiResponse<List<ShoppingItem>> listApiResponse = new ApiResponse<>(shoppingItems);
         return ResponseEntity.ok(listApiResponse);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ApiResponse<SupplierFood>> getSupplierFoodById(@PathVariable Long id) {
-        SupplierFood supplierFood = supplierFoodService.getSupplierFoodById(id);
-        ApiResponse<SupplierFood> apiResponse = new ApiResponse<>(supplierFood);
+    public ResponseEntity<ApiResponse<ShoppingItem>> getSupplierFoodById(@PathVariable Long id) {
+        ShoppingItem shoppingItem = supplierFoodService.getSupplierFoodById(id);
+        ApiResponse<ShoppingItem> apiResponse = new ApiResponse<>(shoppingItem);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping(path = "")
-    ResponseEntity<ApiResponse<SupplierFood>> createSupplierFood(@RequestBody SupplierFood supplierFood) {
-        SupplierFood supplierFoodCreate = supplierFoodService.createSupplierFood(supplierFood);
-        ApiResponse<SupplierFood> apiResponse = new ApiResponse<>(supplierFoodCreate);
+    ResponseEntity<ApiResponse<ShoppingItem>> createSupplierFood(@RequestBody ShoppingItem shoppingItem) {
+        ShoppingItem shoppingItemCreate = supplierFoodService.createSupplierFood(shoppingItem);
+        ApiResponse<ShoppingItem> apiResponse = new ApiResponse<>(shoppingItemCreate);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping(path = "")
-    ResponseEntity<ApiResponse<SupplierFood>> updateSupplierFood(@RequestBody SupplierFood supplierFood) {
-        SupplierFood supplierFoodUpdate = supplierFoodService.updateSupplierFood(supplierFood);
-        ApiResponse<SupplierFood> apiResponse = new ApiResponse<>(supplierFoodUpdate);
+    ResponseEntity<ApiResponse<ShoppingItem>> updateSupplierFood(@RequestBody ShoppingItem shoppingItem) {
+        ShoppingItem shoppingItemUpdate = supplierFoodService.updateSupplierFood(shoppingItem);
+        ApiResponse<ShoppingItem> apiResponse = new ApiResponse<>(shoppingItemUpdate);
         return ResponseEntity.ok(apiResponse);
     }
 

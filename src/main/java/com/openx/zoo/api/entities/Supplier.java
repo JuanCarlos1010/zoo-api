@@ -1,9 +1,16 @@
 package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "suppliers")
@@ -14,7 +21,7 @@ public class Supplier {
     private long id;
 
     private String name;
-    private String mail;
+    private String email;
     private String phone;
     private String address;
 

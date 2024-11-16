@@ -1,13 +1,19 @@
 package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "supplier_foods")
-public class SupplierFood {
+@Table(name = "shopping_items")
+public class ShoppingItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +37,5 @@ public class SupplierFood {
 
     @OneToOne
     @JoinColumn(name = "shopping_id")
-    private Supplier supplier;
+    private Shopping shopping;
 }

@@ -1,7 +1,7 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.dtos.RegionDTO;
-import com.openx.zoo.api.mappers.RegionConverter;
+import com.openx.zoo.api.dto.RegionDTO;
+import com.openx.zoo.api.mappers.RegionMapper;
 import com.openx.zoo.api.services.RegionService;
 import com.openx.zoo.api.utility.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequestMapping(path = "/regions")
 public class RegionController {
     private final RegionService regionService;
-    private final RegionConverter regionMapper;
+    private final RegionMapper regionMapper;
 
-    public RegionController(RegionConverter regionMapper, RegionService regionService) {
+    public RegionController(RegionMapper regionMapper, RegionService regionService) {
         this.regionMapper = regionMapper;
         this.regionService = regionService;
     }

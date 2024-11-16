@@ -1,20 +1,17 @@
-package com.openx.zoo.api.dtos;
+package com.openx.zoo.api.dto;
 
-import com.openx.zoo.api.entities.Region;
 import lombok.Builder;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ZoneDTO {
+public class SupplierDTO {
     private long id;
     private String name;
-    private String type;
-    private int capacity;
+    private String email;
+    private String phone;
+    private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
-    private Region region;
 }

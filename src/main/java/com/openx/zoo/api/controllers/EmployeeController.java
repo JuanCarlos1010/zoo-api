@@ -1,8 +1,10 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.entities.Employee;
+import com.openx.zoo.api.dto.EmployeeDTO;
+import com.openx.zoo.api.mappers.EmployeeMapper;
 import com.openx.zoo.api.services.EmployeeService;
 import com.openx.zoo.api.utility.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -10,38 +12,39 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/employees")
 public class EmployeeController {
-
     private final EmployeeService employeeService;
+    private final EmployeeMapper employeeMapper;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
         this.employeeService = employeeService;
+        this.employeeMapper = employeeMapper;
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<ApiResponse<List<Employee>>> getAllEmployees() {
-        List<Employee> employees = employeeService.findAllEmployees();
-        ApiResponse<List<Employee>> listApiResponse = new ApiResponse<>(employees);
+    public ResponseEntity<ApiResponse<List<EmployeeDTO>>> getAllEmployees() {
+        List<EmployeeDTO> employees = employeeMapper.toDTO(employeeService.findAllEmployees());
+        ApiResponse<List<EmployeeDTO>> listApiResponse = new ApiResponse<>(employees);
         return ResponseEntity.ok(listApiResponse);
     }
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<ApiResponse<Employee>> getEmployeeById(@PathVariable Long id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        ApiResponse<Employee> apiResponse = new ApiResponse<>(employee);
+    ResponseEntity<ApiResponse<EmployeeDTO>> getEmployeeById(@PathVariable Long id) {
+        EmployeeDTO employee = employeeMapper.toDTO(employeeService.getEmployeeById(id));
+        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employee);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping(path = "")
-    ResponseEntity<ApiResponse<Employee>> createEmployee(@RequestBody Employee employee) {
-        Employee employeeCreate = employeeService.createEmployee(employee);
-        ApiResponse<Employee> apiResponse = new ApiResponse<>(employeeCreate);
-        return ResponseEntity.ok(apiResponse);
+    ResponseEntity<ApiResponse<EmployeeDTO>> createEmployee(@RequestBody EmployeeDTO body) {
+        EmployeeDTO employeeCreate = employeeMapper.toDTO(employeeService.createEmployee(employeeMapper.toEntity(body)));
+        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employeeCreate);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping(path = "")
-    ResponseEntity<ApiResponse<Employee>> updateEmployee(@RequestBody Employee employee) {
-        Employee employeeUpdate = employeeService.updateEmployee(employee);
-        ApiResponse<Employee> apiResponse = new ApiResponse<>(employeeUpdate);
+    ResponseEntity<ApiResponse<EmployeeDTO>> updateEmployee(@RequestBody EmployeeDTO body) {
+        EmployeeDTO employeeCreate = employeeMapper.toDTO(employeeService.updateEmployee(employeeMapper.toEntity(body)));
+        ApiResponse<EmployeeDTO> apiResponse = new ApiResponse<>(employeeCreate);
         return ResponseEntity.ok(apiResponse);
     }
 

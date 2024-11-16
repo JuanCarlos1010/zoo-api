@@ -162,18 +162,15 @@ CREATE TABLE IF NOT EXISTS shopping
     CONSTRAINT fk_supplier_food_supplier FOREIGN KEY (supplier_id) REFERENCES suppliers (id)
 );
 
-CREATE TABLE IF NOT EXISTS supplier_foods
+CREATE TABLE IF NOT EXISTS shopping_items
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     food_id     INT,
     shopping_id INT,
     quantity    DOUBLE DEFAULT 0.0,
     price       DOUBLE DEFAULT 0.0,
-    created_at  TIMESTAMP NOT NULL,
-    updated_at  TIMESTAMP NULL,
-    deleted_at  TIMESTAMP NULL,
-    CONSTRAINT fk_supplier_food_food FOREIGN KEY (food_id) REFERENCES foods (id),
-    CONSTRAINT fk_supplier_food_shopping FOREIGN KEY (shopping_id) REFERENCES shopping (id)
+    CONSTRAINT fk_shopping_item_food FOREIGN KEY (food_id) REFERENCES foods (id),
+    CONSTRAINT fk_shopping_item_shopping FOREIGN KEY (shopping_id) REFERENCES shopping (id)
 );
 
 CREATE TABLE IF NOT EXISTS food_animals
