@@ -2,6 +2,7 @@ package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -10,8 +11,19 @@ public class ZoneEmployee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_zone_employee")
     private long id;
+
+    @Column(name = "assignment_date")
+    private LocalDateTime assignmentDate;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @OneToOne
     @JoinColumn(name = "id_zone")
@@ -20,7 +32,4 @@ public class ZoneEmployee {
     @OneToOne
     @JoinColumn(name = "id_employee")
     private Employee employee;
-
-    @Column(name = "assignment_date")
-    private String assignmentDate;
 }

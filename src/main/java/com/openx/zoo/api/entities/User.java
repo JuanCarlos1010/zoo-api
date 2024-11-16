@@ -2,6 +2,7 @@ package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -10,12 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private long id;
-
-    @OneToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 
     private String username;
     private String password;
@@ -24,4 +20,17 @@ public class User {
 
     @Column(name = "document_number")
     private String documentNumber;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

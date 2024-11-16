@@ -1,6 +1,7 @@
 package com.openx.zoo.api.controllers;
 
-import com.openx.zoo.api.entities.Region;
+import com.openx.zoo.api.dtos.RegionDTO;
+import com.openx.zoo.api.mappers.RegionConverter;
 import com.openx.zoo.api.services.RegionService;
 import com.openx.zoo.api.utility.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -10,38 +11,39 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/regions")
 public class RegionController {
-
     private final RegionService regionService;
+    private final RegionConverter regionMapper;
 
-    public RegionController(RegionService regionService) {
+    public RegionController(RegionConverter regionMapper, RegionService regionService) {
+        this.regionMapper = regionMapper;
         this.regionService = regionService;
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<ApiResponse<List<Region>>> getAllRegions() {
-        List<Region> regions = regionService.findAllRegions();
-        ApiResponse<List<Region>> listApiResponse = new ApiResponse<>(regions);
+    public ResponseEntity<ApiResponse<List<RegionDTO>>> getAllRegions() {
+        List<RegionDTO> regions = regionMapper.toDTO(regionService.findAllRegions());
+        ApiResponse<List<RegionDTO>> listApiResponse = new ApiResponse<>(regions);
         return ResponseEntity.ok(listApiResponse);
     }
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<ApiResponse<Region>> getRegionById(@PathVariable Long id) {
-        Region region = regionService.getRegionById(id);
-        ApiResponse<Region> apiResponse = new ApiResponse<>(region);
+    ResponseEntity<ApiResponse<RegionDTO>> getRegionById(@PathVariable Long id) {
+        RegionDTO region = regionMapper.toDTO(regionService.getRegionById(id));
+        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(region);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping(path = "")
-    ResponseEntity<ApiResponse<Region>> createRegion(@RequestBody Region region) {
-        Region regionCreate = regionService.createRegion(region);
-        ApiResponse<Region> apiResponse = new ApiResponse<>(regionCreate);
-        return ResponseEntity.ok(apiResponse) ;
+    ResponseEntity<ApiResponse<RegionDTO>> createRegion(@RequestBody RegionDTO regionDTO) {
+        RegionDTO regionCreate = regionMapper.toDTO(regionService.createRegion(regionMapper.toEntity(regionDTO)));
+        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(regionCreate);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping(path = "")
-    ResponseEntity<ApiResponse<Region>> updateRegion(@RequestBody Region region) {
-        Region regionUpdate = regionService.updateRegion(region);
-        ApiResponse<Region> apiResponse = new ApiResponse<>(regionUpdate);
+    ResponseEntity<ApiResponse<RegionDTO>> updateRegion(@RequestBody RegionDTO regionDTO) {
+        RegionDTO regionUpdate = regionMapper.toDTO(regionService.updateRegion(regionMapper.toEntity(regionDTO)));
+        ApiResponse<RegionDTO> apiResponse = new ApiResponse<>(regionUpdate);
         return ResponseEntity.ok(apiResponse);
     }
 

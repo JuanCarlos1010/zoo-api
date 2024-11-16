@@ -11,18 +11,27 @@ public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "animal_id")
     private long id;
 
     private String name;
-    private String species;
     private LocalDateTime birthdate;
-    private String gender;
-    private String age;
-    private String description;
 
     @Column(name = "entry_date")
     private LocalDateTime entryDate;
+
+    private String gender;
+    private String species;
+    private int age;
+    private String description;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @OneToOne
     @JoinColumn(name = "zone_id")

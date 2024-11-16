@@ -6,19 +6,16 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "foods")
-public class Food {
-
+@Table(name = "shopping")
+public class Shopping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private double stock;
-    private String name;
-    private String type;
+    @Column(name = "supply_date")
+    private LocalDateTime supplyDate;
 
-    @Column(name = "unit_measurement")
-    private String unitMeasurement;
+    private double total;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -28,4 +25,8 @@ public class Food {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @OneToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 }

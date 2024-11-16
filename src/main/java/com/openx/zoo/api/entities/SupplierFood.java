@@ -2,6 +2,7 @@ package com.openx.zoo.api.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -12,19 +13,23 @@ public class SupplierFood {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int amount;
+    private double quantity;
+    private double price;
 
-    @OneToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @OneToOne
     @JoinColumn(name = "food_id")
     private Food food;
 
-    @Column(name = "supply_date")
-    private String supplyDate;
-
-    @Column(name = "expiration_date")
-    private String expirationDate;
+    @OneToOne
+    @JoinColumn(name = "shopping_id")
+    private Supplier supplier;
 }

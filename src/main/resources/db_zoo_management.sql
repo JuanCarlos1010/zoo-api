@@ -1,138 +1,204 @@
 CREATE DATABASE IF NOT EXISTS db_zoo_management;
 USE db_zoo_management;
 
-create table roles (
-    role_id int         auto_increment primary key,
-    name    varchar(70) unique not null,
-    index (name)
+CREATE TABLE IF NOT EXISTS roles
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    name       varchar(70) UNIQUE NOT NULL,
+    created_at TIMESTAMP          NOT NULL,
+    updated_at TIMESTAMP          NULL,
+    deleted_at TIMESTAMP          NULL,
+    INDEX (name)
 );
 
-create table permissions (
-    permission_id int         auto_increment primary key,
-    name          varchar(50) null,
-    module_name   varchar(40) null,
-    index (name)
+CREATE TABLE IF NOT EXISTS permissions
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(50) UNIQUE NOT NULL,
+    module_name VARCHAR(40)        NULL,
+    description VARCHAR(50)        NULL,
+    created_at  TIMESTAMP          NOT NULL,
+    updated_at  TIMESTAMP          NULL,
+    deleted_at  TIMESTAMP          NULL,
+    INDEX (name)
 );
 
-create table role_permissions (
-    id            bigint  auto_increment primary key,
-    role_id       int not null,
-    permission_id int not null,
-    constraint fk_role_permission_role foreign key (role_id) references roles(role_id),
-    constraint fk_role_permission_permission foreign key (permission_id) references permissions(permission_id)
+CREATE TABLE IF NOT EXISTS role_permissions
+(
+    id            INT AUTO_INCREMENT PRIMARY KEY,
+    role_id       INT,
+    permission_id INT,
+    created_at    TIMESTAMP NOT NULL,
+    updated_at    TIMESTAMP NULL,
+    deleted_at    TIMESTAMP NULL,
+    CONSTRAINT fk_role_permission_role FOREIGN KEY (role_id) REFERENCES roles (id),
+    CONSTRAINT fk_role_permission_permission FOREIGN KEY (permission_id) REFERENCES permissions (id)
 );
 
-create table users (
-   user_id         int          auto_increment primary key,
-   role_id         int          not null,
-   username        varchar(70)  unique not null,
-   password        varchar(255) null,
-   document_number varchar(20)  null,
-   phone           varchar(15)  null,
-   address         varchar(255) null,
-   index (username),
-   constraint fk_users_role foreign key (role_id) references roles(role_id)
+CREATE TABLE IF NOT EXISTS users
+(
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    role_id         INT,
+    username        VARCHAR(70) UNIQUE NOT NULL,
+    password        VARCHAR(255)       NOT NULL,
+    document_number VARCHAR(20)        NULL,
+    phone           VARCHAR(15)        NULL,
+    address         VARCHAR(255)       NULL,
+    created_at      TIMESTAMP          NOT NULL,
+    updated_at      TIMESTAMP          NULL,
+    deleted_at      TIMESTAMP          NULL,
+    CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES roles (id),
+    INDEX (username)
 );
 
-create table tickets (
-     ticket_id      int          auto_increment primary key,
-     user_id        int          not null,
-     status         bit          not null,
-     price          double       null,
-     type           varchar(40)  null,
-     visit_date     timestamp    not null,
-     visitor_name   varchar(100) null,
-     payment_method varchar(50)  null,
-     constraint fk_tickets_users foreign key (user_id) references users(user_id)
+CREATE TABLE IF NOT EXISTS tickets
+(
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    user_id        INT,
+    status         BOOLEAN DEFAULT FALSE,
+    price          DOUBLE  DEFAULT 0.0,
+    type           VARCHAR(40)  NULL,
+    visit_date     TIMESTAMP    NOT NULL,
+    visitor_name   VARCHAR(100) NULL,
+    payment_method VARCHAR(50)  NULL,
+    created_at     TIMESTAMP    NOT NULL,
+    updated_at     TIMESTAMP    NULL,
+    deleted_at     TIMESTAMP    NULL,
+    CONSTRAINT fk_ticket_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-create table employees (
-    employee_id int          auto_increment primary key,
-    name        varchar(80)  null,
-    email       varchar(100) unique not null,
-    address     varchar(255) null,
-    phone       varchar(15)  null,
-    position    varchar(50)  null,
-    description varchar(255) null,
-    index (name)
+CREATE TABLE IF NOT EXISTS employees
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(80)         NOT NULL,
+    email       VARCHAR(100) UNIQUE NULL,
+    address     VARCHAR(255)        NULL,
+    phone       VARCHAR(15)         NULL,
+    position    VARCHAR(50)         NULL,
+    description VARCHAR(255)        NULL,
+    created_at  TIMESTAMP           NOT NULL,
+    updated_at  TIMESTAMP           NULL,
+    deleted_at  TIMESTAMP           NULL,
+    INDEX (name)
 );
 
-create table regions (
-    region_id int          auto_increment primary key,
-    name      varchar(100) unique not null,
-    index (name)
+CREATE TABLE IF NOT EXISTS regions
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    name       VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP           NOT NULL,
+    updated_at TIMESTAMP           NULL,
+    deleted_at TIMESTAMP           NULL,
+    INDEX (name)
 );
 
-create table zones (
-    zone_id   int          auto_increment primary key,
-    name      varchar(50)  null,
-    region_id int          not null,
-    capacity  int          not null,
-    type      varchar(100) null,
-    index (name),
-    constraint fk_zones_regions foreign key (region_id) references regions(region_id)
+CREATE TABLE IF NOT EXISTS zones
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    region_id  INT,
+    name       VARCHAR(50)  NOT NULL,
+    capacity   INT DEFAULT 0,
+    type       VARCHAR(100) NULL,
+    created_at TIMESTAMP    NOT NULL,
+    updated_at TIMESTAMP    NULL,
+    deleted_at TIMESTAMP    NULL,
+    CONSTRAINT fk_zone_region FOREIGN KEY (region_id) REFERENCES regions (id),
+    INDEX (name)
 );
 
-create table animals (
-    animal_id       int          auto_increment primary key,
-    zone_id         int          not null,
-    name            varchar(100) null,
-    birthdate       datetime(6)  null,
-    entry_date      timestamp    null,
-    gender          varchar(20)  null,
-    species         varchar(50)  null,
-    age             int          null,
-    description     varchar(255) null,
-    index (name),
-    constraint fk_animals_zones foreign key (zone_id) references zones(zone_id)
+CREATE TABLE IF NOT EXISTS animals
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    zone_id     INT          NOT NULL,
+    name        VARCHAR(100) NOT NULL,
+    birthdate   TIMESTAMP    NULL,
+    entry_date  TIMESTAMP    NULL,
+    gender      VARCHAR(20)  NULL,
+    species     VARCHAR(50)  NULL,
+    age         INT DEFAULT 0,
+    description VARCHAR(255) NULL,
+    created_at  TIMESTAMP    NOT NULL,
+    updated_at  TIMESTAMP    NULL,
+    deleted_at  TIMESTAMP    NULL,
+    CONSTRAINT fk_animal_zone FOREIGN KEY (zone_id) REFERENCES zones (id),
+    INDEX (name)
 );
 
-create table foods (
-    food_id          int          auto_increment primary key,
-    stock            int          not null,
-    name             varchar(255) null,
-    type             varchar(50)  null,
-    unit_measurement varchar(15)  null,
-    index (name)
+CREATE TABLE IF NOT EXISTS foods
+(
+    id               INT AUTO_INCREMENT PRIMARY KEY,
+    stock            DOUBLE DEFAULT 0.0,
+    name             VARCHAR(255) NOT NULL,
+    type             VARCHAR(50)  NULL,
+    unit_measurement VARCHAR(15)  NULL,
+    created_at       TIMESTAMP    NOT NULL,
+    updated_at       TIMESTAMP    NULL,
+    deleted_at       TIMESTAMP    NULL,
+    INDEX (name)
 );
 
-create table suppliers (
-    supplier_id int          auto_increment primary key,
-    name        varchar(150) null,
-    email       varchar(100) unique,
-    address     varchar(255) null,
-    phone       varchar(15)  null,
-    index (name)
+CREATE TABLE IF NOT EXISTS suppliers
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    name       VARCHAR(150) NOT NULL,
+    email      VARCHAR(100) UNIQUE,
+    phone      VARCHAR(15)  NULL,
+    address    VARCHAR(255) NULL,
+    created_at TIMESTAMP    NOT NULL,
+    updated_at TIMESTAMP    NULL,
+    deleted_at TIMESTAMP    NULL,
+    INDEX (name)
 );
 
-create table supplier_foods (
-    id               bigint    auto_increment primary key,
-    food_id          int       null,
-    supplier_id      int       null,
-    amount           int       not null,
-    supply_date      timestamp not null,
-    expiration_date  timestamp  null,
-    constraint fk_supplier_foods_food foreign key (food_id) references foods(food_id),
-    constraint fk_supplier_foods_supplier foreign key (supplier_id) references suppliers(supplier_id)
+CREATE TABLE IF NOT EXISTS shopping
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_id INT,
+    supply_date TIMESTAMP NOT NULL,
+    total       DOUBLE DEFAULT 0.0,
+    created_at  TIMESTAMP NOT NULL,
+    updated_at  TIMESTAMP NULL,
+    deleted_at  TIMESTAMP NULL,
+    CONSTRAINT fk_supplier_food_supplier FOREIGN KEY (supplier_id) REFERENCES suppliers (id)
 );
 
-create table food_animals (
-    id               int         auto_increment primary key,
-    food_id          int         not null,
-    animal_id        int         not null,
-    portion          double      not null,
-    consumption_date timestamp   null,
-    constraint fk_food_animals_foods foreign key (food_id) references foods(food_id),
-    constraint fk_food_animals_animals foreign key (animal_id) references animals(animal_id)
+CREATE TABLE IF NOT EXISTS supplier_foods
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    food_id     INT,
+    shopping_id INT,
+    quantity    DOUBLE DEFAULT 0.0,
+    price       DOUBLE DEFAULT 0.0,
+    created_at  TIMESTAMP NOT NULL,
+    updated_at  TIMESTAMP NULL,
+    deleted_at  TIMESTAMP NULL,
+    CONSTRAINT fk_supplier_food_food FOREIGN KEY (food_id) REFERENCES foods (id),
+    CONSTRAINT fk_supplier_food_shopping FOREIGN KEY (shopping_id) REFERENCES shopping (id)
 );
 
-create table zone_employees (
-    id               int       auto_increment primary key,
-    zone_id          int       null,
-    employee_id      int       null,
-    assignment_date  timestamp null,
-    constraint fk_zone_employees_zones foreign key (zone_id) references zones(zone_id),
-    constraint fk_zone_employees_employees foreign key (employee_id) references employees(employee_id)
+CREATE TABLE IF NOT EXISTS food_animals
+(
+    id               INT AUTO_INCREMENT PRIMARY KEY,
+    food_id          INT,
+    animal_id        INT,
+    portion          DOUBLE DEFAULT 0.0,
+    consumption_date TIMESTAMP NOT NULL,
+    created_at       TIMESTAMP NOT NULL,
+    updated_at       TIMESTAMP NULL,
+    deleted_at       TIMESTAMP NULL,
+    CONSTRAINT fk_food_animal_food FOREIGN KEY (food_id) REFERENCES foods (id),
+    CONSTRAINT fk_food_animal_animal FOREIGN KEY (animal_id) REFERENCES animals (id)
 );
 
-#FIN
+CREATE TABLE IF NOT EXISTS zone_employees
+(
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    zone_id         INT,
+    employee_id     INT,
+    assignment_date TIMESTAMP NULL,
+    created_at      TIMESTAMP NOT NULL,
+    updated_at      TIMESTAMP NULL,
+    deleted_at      TIMESTAMP NULL,
+    CONSTRAINT fk_zone_employee_zone FOREIGN KEY (zone_id) REFERENCES zones (id),
+    CONSTRAINT fk_zone_employee_employee FOREIGN KEY (employee_id) REFERENCES employees (id)
+);
