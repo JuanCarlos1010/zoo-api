@@ -29,4 +29,8 @@ public class Role {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    public Role(long roleId) {
+        this.id = roleId;
+    }
 }

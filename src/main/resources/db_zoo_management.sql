@@ -14,12 +14,10 @@ CREATE TABLE IF NOT EXISTS roles
 CREATE TABLE IF NOT EXISTS permissions
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
-    name        VARCHAR(50) UNIQUE NOT NULL,
+    name        VARCHAR(50) NOT NULL,
+    system_name VARCHAR(40) UNIQUE NOT NULL,
     module_name VARCHAR(40)        NULL,
     description VARCHAR(50)        NULL,
-    created_at  TIMESTAMP          NOT NULL,
-    updated_at  TIMESTAMP          NULL,
-    deleted_at  TIMESTAMP          NULL,
     INDEX (name)
 );
 
@@ -40,6 +38,7 @@ CREATE TABLE IF NOT EXISTS users
     id              INT AUTO_INCREMENT PRIMARY KEY,
     role_id         INT,
     username        VARCHAR(70) UNIQUE NOT NULL,
+    full_name       VARCHAR(100)       NOT NULL,
     password        VARCHAR(255)       NOT NULL,
     document_number VARCHAR(20)        NULL,
     phone           VARCHAR(15)        NULL,

@@ -7,6 +7,7 @@ import com.openx.zoo.api.entities.Role;
 import com.openx.zoo.api.entities.RolePermission;
 import com.openx.zoo.api.repositories.RolePermissionRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,7 +18,7 @@ public class PermissionService {
         this.rolePermissionRepository = rolePermissionRepository;
     }
 
-    public Iterable<Permission> findAllPermissions() {
+    public List<Permission> findAllPermissions() {
         return rolePermissionRepository.findPermissions();
     }
 
@@ -26,8 +27,8 @@ public class PermissionService {
                 .orElseThrow(() -> new NotFoundException("Permission not found with id: " + id));
     }
 
-    public Iterable<Permission> findPermissionsByRole(long roleId) {
-        return rolePermissionRepository.findPermissionsByRole(roleId);
+    public List<Permission> findPermissionsByRole(long roleId) {
+        return rolePermissionRepository.findPermissionsByRole(new Role(roleId));
     }
 
     public Role findRoleById(long id) {

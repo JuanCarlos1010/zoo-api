@@ -70,7 +70,6 @@ public class ShoppingItemService {
                 .map(shoppingItem -> {
                     shoppingItem.setQuantity(updateshoppingItem.getQuantity());
                     shoppingItem.setPrice(updateshoppingItem.getPrice());
-                    shoppingItem.setUpdatedAt(updateshoppingItem.getUpdatedAt());
                     shoppingItem.setFood(food);
                     shoppingItem.setShopping(shopping);
                     return shoppingItemRepository.save(shoppingItem);

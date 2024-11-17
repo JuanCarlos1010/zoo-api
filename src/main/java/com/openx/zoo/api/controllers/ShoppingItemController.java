@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/zones")
+@RequestMapping(path = "/shopping-items")
 public class ShoppingItemController {
     private final ShoppingItemMapper shoppingItemMapper;
     private final ShoppingItemService shoppingItemService;

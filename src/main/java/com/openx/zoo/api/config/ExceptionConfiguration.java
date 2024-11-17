@@ -1,6 +1,7 @@
 package com.openx.zoo.api.config;
 
 import com.openx.zoo.api.exceptions.BadRequestException;
+import com.openx.zoo.api.exceptions.ForbiddenException;
 import com.openx.zoo.api.exceptions.InternalServerException;
 import com.openx.zoo.api.exceptions.NotFoundException;
 import com.openx.zoo.api.exceptions.UnauthorizedException;
@@ -29,6 +30,12 @@ public class ExceptionConfiguration {
     public ResponseEntity<ApiResponse<Void>> handleUnauthorized(UnauthorizedException exception) {
         ApiResponse<Void> apiResponse = new ApiResponse<>(exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiResponse<Void>> handleForbidden(ForbiddenException exception) {
+        ApiResponse<Void> apiResponse = new ApiResponse<>(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiResponse);
     }
 
     @ExceptionHandler(InternalServerException.class)

@@ -10,6 +10,8 @@ import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,19 +19,19 @@ public class RolePermissionRepository  {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Iterable<Permission> findPermissions() {
+    public List<Permission> findPermissions() {
         try (Session session = entityManager.unwrap(Session.class)) {
             return session.createQuery("FROM Permission", Permission.class)
                     .getResultList();
         }
     }
 
-    public Iterable<Permission> findPermissionsByRole(long role) {
+    public List<Permission> findPermissionsByRole(Role role) {
         try (Session session = entityManager.unwrap(Session.class)) {
             String strSQL = "SELECT rp.permission FROM RolePermission rp WHERE rp.role.id = :role";
 
             return session.createQuery(strSQL, Permission.class)
-                    .setParameter("role", role)
+                    .setParameter("role", role.getId())
                     .getResultList();
         }
     }

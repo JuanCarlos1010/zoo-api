@@ -12,8 +12,6 @@ public class PermissionMapper extends AbstractMapper<Permission, PermissionDTO> 
         return PermissionDTO.builder()
                 .id(permission.getId())
                 .name(permission.getName())
-                .createdAt(permission.getCreatedAt())
-                .updatedAt(permission.getUpdatedAt())
                 .moduleName(permission.getModuleName())
                 .description(permission.getDescription())
                 .build();
@@ -24,8 +22,6 @@ public class PermissionMapper extends AbstractMapper<Permission, PermissionDTO> 
         return Permission.builder()
                 .id(permission.getId())
                 .name(permission.getName())
-                .createdAt(permission.getCreatedAt())
-                .updatedAt(permission.getUpdatedAt())
                 .moduleName(permission.getModuleName())
                 .description(permission.getDescription())
                 .build();
