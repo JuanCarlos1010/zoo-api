@@ -7,6 +7,7 @@ import com.openx.zoo.api.dto.UserResponse;
 import com.openx.zoo.api.mappers.UserMapper;
 import com.openx.zoo.api.security.AuthenticationService;
 import com.openx.zoo.api.utility.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody UserRequest requestBody) {
         UserDTO userResponse = userMapper.toDTO(authenticationService.signUp(requestBody));
         ApiResponse<UserDTO> apiResponse = new ApiResponse<>(userResponse);
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping(path = "/account")

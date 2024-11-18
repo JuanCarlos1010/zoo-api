@@ -8,6 +8,7 @@ import com.openx.zoo.api.repositories.AnimalRepository;
 import com.openx.zoo.api.repositories.ZoneRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,8 @@ public class AnimalService {
                 throw new NotFoundException("Animal con el nombre " + animal.getName() + " ya existe");
             }
         }
-        animal.setZone(animal.getZone());
+        animal.setZone(zone);
+        animal.setCreatedAt(LocalDateTime.now());
         return animalRepository.save(animal);
     }
 
@@ -61,13 +63,13 @@ public class AnimalService {
         }
         return animalRepository.findById(updateAnimal.getId())
                 .map(animal -> {
-                    updateAnimal.setName(updateAnimal.getName());
-                    updateAnimal.setBirthdate(updateAnimal.getBirthdate());
-                    updateAnimal.setEntryDate(updateAnimal.getEntryDate());
-                    updateAnimal.setGender(updateAnimal.getGender());
-                    updateAnimal.setSpecies(updateAnimal.getSpecies());
-                    updateAnimal.setAge(updateAnimal.getAge());
-                    updateAnimal.setUpdatedAt(updateAnimal.getUpdatedAt());
+                    animal.setName(updateAnimal.getName());
+                    animal.setBirthdate(updateAnimal.getBirthdate());
+                    animal.setEntryDate(updateAnimal.getEntryDate());
+                    animal.setGender(updateAnimal.getGender());
+                    animal.setSpecies(updateAnimal.getSpecies());
+                    animal.setAge(updateAnimal.getAge());
+                    animal.setUpdatedAt(updateAnimal.getUpdatedAt());
                     return animalRepository.save(animal);
                 })
                 .orElseThrow(() -> new NotFoundException("Animal no econtrado con id: " + updateAnimal.getId()));

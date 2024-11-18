@@ -1,11 +1,15 @@
 package com.openx.zoo.api.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ZoneDTO {
     private long id;
     private String name;
@@ -13,6 +17,9 @@ public class ZoneDTO {
     private String type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
     private RegionDTO region;
+
+    public ZoneDTO(long id) {
+        this.id = id;
+    }
 }

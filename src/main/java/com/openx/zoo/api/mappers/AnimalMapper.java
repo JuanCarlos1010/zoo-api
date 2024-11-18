@@ -2,15 +2,11 @@ package com.openx.zoo.api.mappers;
 
 import com.openx.zoo.api.dto.AnimalDTO;
 import com.openx.zoo.api.entities.Animal;
+import com.openx.zoo.api.entities.Zone;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AnimalMapper extends AbstractMapper<Animal, AnimalDTO> {
-    private final ZoneMapper zoneMapper;
-
-    public AnimalMapper(ZoneMapper zoneMapper) {
-        this.zoneMapper = zoneMapper;
-    }
 
     @Override
     public AnimalDTO toDTO(Animal animal) {
@@ -22,7 +18,8 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDTO> {
                 .updatedAt(animal.getUpdatedAt())
                 .gender(animal.getGender())
                 .species(animal.getSpecies())
-                .zone(zoneMapper.toDTO(animal.getZone()))
+                .zoneId(animal.getZone().getId())
+                .zoneName(animal.getZone().getName())
                 .build();
     }
 
@@ -36,7 +33,7 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDTO> {
                 .updatedAt(animal.getUpdatedAt())
                 .gender(animal.getGender())
                 .species(animal.getSpecies())
-                .zone(zoneMapper.toEntity(animal.getZone()))
+                .zone(new Zone(animal.getZoneId()))
                 .build();
     }
 }

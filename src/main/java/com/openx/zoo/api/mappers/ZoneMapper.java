@@ -1,6 +1,7 @@
 package com.openx.zoo.api.mappers;
 
 import com.openx.zoo.api.dto.ZoneDTO;
+import com.openx.zoo.api.entities.Region;
 import com.openx.zoo.api.entities.Zone;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ public class ZoneMapper extends AbstractMapper<Zone, ZoneDTO> {
                 .id(zone.getId())
                 .name(zone.getName())
                 .type(zone.getType())
+                .region(new Region(zone.getRegion().getId()))
                 .capacity(zone.getCapacity())
                 .createdAt(zone.getCreatedAt())
                 .updatedAt(zone.getUpdatedAt())

@@ -17,5 +17,6 @@ public class AnimalDTO {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private ZoneDTO zone;
+    private long zoneId;
+    private String zoneName;
 }

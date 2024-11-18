@@ -29,4 +29,8 @@ public class Region {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    public Region(long id) {
+        this.id = id;
+    }
 }

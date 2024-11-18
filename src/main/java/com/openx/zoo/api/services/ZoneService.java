@@ -9,6 +9,8 @@ import com.openx.zoo.api.repositories.RegionRepository;
 import com.openx.zoo.api.repositories.ZoneRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +52,7 @@ public class ZoneService {
                 throw new BadRequestException("Zona con el nombre " + zone.getName() + " ya existe");
             }
             zone.setRegion(regionOpt.get());
+            zone.setCreatedAt(LocalDateTime.now());
             return zoneRepository.save(zone);
         }
     }

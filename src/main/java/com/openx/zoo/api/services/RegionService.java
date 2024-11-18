@@ -7,6 +7,7 @@ import com.openx.zoo.api.entities.Region;
 import com.openx.zoo.api.repositories.RegionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,7 @@ public class RegionService {
         if (regionOpt.isPresent()) {
             throw new BadRequestException("Region con el nombre " + region.getName() + " ya existe.");
         }
+        region.setCreatedAt(LocalDateTime.now());
         return regionRepository.save(region);
     }
 
@@ -45,7 +47,7 @@ public class RegionService {
         return regionRepository.findById(updateRegion.getId())
                 .map(region -> {
                     region.setName(updateRegion.getName());
-                    region.setUpdatedAt(updateRegion.getUpdatedAt());
+                    region.setUpdatedAt(LocalDateTime.now());
                     return regionRepository.save(region);
                 })
                 .orElseThrow(() -> new NotFoundException("Region no encontrada con el id: " + updateRegion.getId()));
@@ -54,7 +56,8 @@ public class RegionService {
     @Transactional
     public boolean deleteRegion(Long id) {
         Region region = getRegionById(id);
-        regionRepository.delete(region);
+        region.setDeletedAt(LocalDateTime.now());
+        regionRepository.save(region);
         return true;
     }
 }
