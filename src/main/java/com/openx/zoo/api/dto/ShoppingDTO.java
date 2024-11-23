@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 public class ShoppingDTO {
     private long id;
     private double total;
+    private long supplierId;
+    private String supplierName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime supplyDate;
-    private SupplierDTO supplier;
 }

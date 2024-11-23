@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
 public class ZoneDTO {
     private long id;
     private String name;
-    private int capacity;
     private String type;
+    private int capacity;
+    private long regionId;
+    private String regionName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private RegionDTO region;
 
     public ZoneDTO(long id) {
         this.id = id;

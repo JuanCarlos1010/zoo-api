@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 @Builder
 public class RolePermissionDTO {
     private long id;
+    private long roleId;
+    private String roleName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
-    private RoleDTO role;
     private PermissionDTO permission;
 }

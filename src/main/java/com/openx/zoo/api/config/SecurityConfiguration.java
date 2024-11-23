@@ -1,6 +1,6 @@
 package com.openx.zoo.api.config;
 
-import com.openx.zoo.api.repositories.UserRepository;
+import com.openx.zoo.api.repository.UserRepository;
 import com.openx.zoo.api.security.AbstractSecurity;
 import com.openx.zoo.api.security.AppAuthenticationEntryPoint;
 import com.openx.zoo.api.security.AuthenticationFilter;

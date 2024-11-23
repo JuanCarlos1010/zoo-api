@@ -4,16 +4,16 @@ import com.nimbusds.jose.JOSEException;
 import com.openx.zoo.api.dto.SignInRequest;
 import com.openx.zoo.api.dto.UserRequest;
 import com.openx.zoo.api.dto.UserResponse;
-import com.openx.zoo.api.entities.Permission;
-import com.openx.zoo.api.entities.Role;
-import com.openx.zoo.api.entities.User;
-import com.openx.zoo.api.exceptions.BadRequestException;
-import com.openx.zoo.api.exceptions.InternalServerException;
-import com.openx.zoo.api.exceptions.NotFoundException;
-import com.openx.zoo.api.exceptions.UnauthorizedException;
-import com.openx.zoo.api.repositories.RolePermissionRepository;
-import com.openx.zoo.api.repositories.RoleRepository;
-import com.openx.zoo.api.repositories.UserRepository;
+import com.openx.zoo.api.entity.Permission;
+import com.openx.zoo.api.entity.Role;
+import com.openx.zoo.api.entity.User;
+import com.openx.zoo.api.exception.BadRequestException;
+import com.openx.zoo.api.exception.InternalServerException;
+import com.openx.zoo.api.exception.NotFoundException;
+import com.openx.zoo.api.exception.UnauthorizedException;
+import com.openx.zoo.api.repository.RolePermissionRepository;
+import com.openx.zoo.api.repository.RoleRepository;
+import com.openx.zoo.api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -53,7 +53,7 @@ public class AuthenticationService {
             return UserResponse.builder()
                     .token(token)
                     .username(user.getUsername())
-                    .fullName(user.getUsername())
+                    .fullName(user.getFullName())
                     .roleName(user.getRole().getName())
                     .build();
         } catch (NotFoundException | UnauthorizedException e) {

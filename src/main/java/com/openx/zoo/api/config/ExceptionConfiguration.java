@@ -1,11 +1,11 @@
 package com.openx.zoo.api.config;
 
-import com.openx.zoo.api.exceptions.BadRequestException;
-import com.openx.zoo.api.exceptions.ForbiddenException;
-import com.openx.zoo.api.exceptions.InternalServerException;
-import com.openx.zoo.api.exceptions.NotFoundException;
-import com.openx.zoo.api.exceptions.UnauthorizedException;
-import com.openx.zoo.api.utility.ApiResponse;
+import com.openx.zoo.api.exception.BadRequestException;
+import com.openx.zoo.api.exception.ForbiddenException;
+import com.openx.zoo.api.exception.InternalServerException;
+import com.openx.zoo.api.exception.NotFoundException;
+import com.openx.zoo.api.exception.UnauthorizedException;
+import com.openx.zoo.api.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

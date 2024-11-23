@@ -8,10 +8,12 @@ import java.time.LocalDateTime;
 @Builder
 public class FoodAnimalDTO {
     private long id;
+    private long foodId;
+    private long animalId;
     private double portion;
-    private LocalDateTime consumptionDate;
+    private String foodName;
+    private String animalName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private FoodDTO food;
-    private AnimalDTO animal;
+    private LocalDateTime consumptionDate;
 }

@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
 @Builder
 public class UserDTO {
     private long id;
-    private String username;
+    private long roleId;
     private String phone;
     private String address;
+    private String roleName;
+    private String username;
+    private String fullName;
     private String documentNumber;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private RoleDTO role;
 }

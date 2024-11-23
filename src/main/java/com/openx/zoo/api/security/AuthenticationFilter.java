@@ -2,11 +2,10 @@ package com.openx.zoo.api.security;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.openx.zoo.api.entities.User;
-import com.openx.zoo.api.exceptions.ForbiddenException;
-import com.openx.zoo.api.exceptions.BadRequestException;
-import com.openx.zoo.api.exceptions.UnauthorizedException;
-import com.openx.zoo.api.repositories.UserRepository;
+import com.openx.zoo.api.entity.User;
+import com.openx.zoo.api.exception.BadRequestException;
+import com.openx.zoo.api.exception.UnauthorizedException;
+import com.openx.zoo.api.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

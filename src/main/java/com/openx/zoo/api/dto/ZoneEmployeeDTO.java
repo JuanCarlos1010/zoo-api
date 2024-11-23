@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 @Builder
 public class ZoneEmployeeDTO {
     private long id;
-    private LocalDateTime assignmentDate;
+    private long zoneId;
+    private String zoneName;
+    private long employeeId;
+    private String employeeName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private ZoneDTO zone;
-    private EmployeeDTO employee;
+    private LocalDateTime assignmentDate;
 }

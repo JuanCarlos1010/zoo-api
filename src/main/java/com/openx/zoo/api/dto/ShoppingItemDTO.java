@@ -7,8 +7,9 @@ import lombok.Data;
 @Builder
 public class ShoppingItemDTO {
     private long id;
+    private long foodId;
     private double price;
+    private long soppingId;
     private double quantity;
-    private FoodDTO food;
-    private ShoppingDTO shopping;
+    private String foodName;
 }

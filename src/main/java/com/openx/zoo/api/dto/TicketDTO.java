@@ -8,13 +8,14 @@ import java.time.LocalDateTime;
 @Builder
 public class TicketDTO {
     private long id;
-    private boolean status;
-    private double price;
+    private long userId;
     private String type;
-    private LocalDateTime visitDate;
+    private double price;
+    private boolean status;
+    private String userName;
     private String visitorName;
     private String paymentMethod;
+    private LocalDateTime visitDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private UserDTO user;
 }

@@ -2,7 +2,7 @@ package com.openx.zoo.api.security;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.openx.zoo.api.entities.User;
+import com.openx.zoo.api.entity.User;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
