@@ -70,6 +70,9 @@ public class AuthenticationService {
                 throw new BadRequestException("La contraseña no debe contener caracteres especiales");
             }
 
+            if(request.getFullName() == null || request.getFullName().length() < 3)
+                throw new BadRequestException("Nombre de usuario incorrecto");
+
             Role role = roleRepository.findById(request.getRole())
                     .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + request.getRole()));
 
@@ -84,6 +87,7 @@ public class AuthenticationService {
                     .address(request.getAddress())
                     .createdAt(LocalDateTime.now())
                     .username(request.getUsername())
+                    .fullName(request.getFullName())
                     .documentNumber(request.getDocumentNumber())
                     .password(securityService.encryptPassword(request.getPassword()))
                     .build();
@@ -102,6 +106,9 @@ public class AuthenticationService {
             if(!securityService.validPassword(body.getPassword())) {
                 throw new BadRequestException("La contraseña no debe contener caracteres especiales");
             }
+
+            if(body.getFullName() == null || body.getFullName().length() < 3)
+                throw new BadRequestException("Nombre de usuario incorrecto");
 
             Role roleRequest = body.getRole();
             if (roleRequest == null) {

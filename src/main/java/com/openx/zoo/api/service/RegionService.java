@@ -34,23 +34,36 @@ public class RegionService {
 
     @Transactional
     public Region createRegion(Region region) {
-        Optional<Region> regionOpt = regionRepository.findByName(region.getName());
-        if (regionOpt.isPresent()) {
-            throw new BadRequestException("Region con el nombre " + region.getName() + " ya existe.");
+
+        try {
+            Optional<Region> regionOpt = regionRepository.findByName(region.getName());
+            if (regionOpt.isPresent()) {
+                throw new BadRequestException("Region con el nombre " + region.getName() + " ya existe.");
+            }
+            region.setCreatedAt(LocalDateTime.now());
+            return regionRepository.save(region);
+        } catch (BadRequestException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new InternalServerException(e);
         }
-        region.setCreatedAt(LocalDateTime.now());
-        return regionRepository.save(region);
     }
 
     @Transactional
     public Region updateRegion(Region updateRegion) {
-        return regionRepository.findById(updateRegion.getId())
-                .map(region -> {
-                    region.setName(updateRegion.getName());
-                    region.setUpdatedAt(LocalDateTime.now());
-                    return regionRepository.save(region);
-                })
-                .orElseThrow(() -> new NotFoundException("Region no encontrada con el id: " + updateRegion.getId()));
+        try {
+            return regionRepository.findById(updateRegion.getId())
+                    .map(region -> {
+                        region.setName(updateRegion.getName());
+                        region.setUpdatedAt(LocalDateTime.now());
+                        return regionRepository.save(region);
+                    })
+                    .orElseThrow(() -> new NotFoundException("Region no encontrada con el id: " + updateRegion.getId()));
+        } catch (NotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new InternalServerException(e);
+        }
     }
 
     @Transactional

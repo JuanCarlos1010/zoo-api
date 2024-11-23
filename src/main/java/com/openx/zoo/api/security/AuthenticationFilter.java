@@ -1,16 +1,15 @@
 package com.openx.zoo.api.security;
 
-import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.openx.zoo.api.entity.User;
 import com.openx.zoo.api.exception.BadRequestException;
+import com.openx.zoo.api.exception.InternalServerException;
 import com.openx.zoo.api.exception.UnauthorizedException;
 import com.openx.zoo.api.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,13 +34,16 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
+
+        String headerValue = request.getHeader(SecurityEnvs.HTTP_HEADER_TOKEN);
+        if (headerValue == null || !headerValue.startsWith(SecurityEnvs.TOKEN_PREFIX)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = headerValue.substring(SecurityEnvs.TOKEN_PREFIX.length());
+
         try {
-            String headerValue = request.getHeader(SecurityEnvs.HTTP_HEADER_TOKEN);
-            if (headerValue == null || !headerValue.startsWith(SecurityEnvs.TOKEN_PREFIX)) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-            String token = headerValue.substring(SecurityEnvs.TOKEN_PREFIX.length());
             JWTClaimsSet claims = abstractSecurity.verifyToken(token);
             long userId = Long.parseLong(claims.getSubject());
             User user = userRepository.findById(userId)
@@ -50,21 +52,13 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             List<SimpleGrantedAuthority> authorities = extractRolesFromToken(claims);
 
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(
-                            user.getId(), null, authorities);
+                    new UsernamePasswordAuthenticationToken(user.getId(), null, authorities);
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        } catch (BadRequestException e) {
-            response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-            return;
-        } catch (ParseException e) {
-            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-            return;
-        } catch (UnauthorizedException e) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
-            return;
-        } catch (JOSEException e) {
-            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        } catch (UnauthorizedException | BadRequestException | InternalServerException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new InternalServerException(e);
         }
         filterChain.doFilter(request, response);
     }
