@@ -1,6 +1,9 @@
+USE db_zoo_management;
 INSERT INTO roles (name, created_at) VALUES ('Testing', now());
 INSERT INTO permissions(name, system_name, module_name)
-VALUES ('Create animal', 'create_animals', 'Animals'),
+VALUES ('View dashboard', 'view_dashboard', 'Dashboard')
+       ('View animals', 'view_animals', 'Animals'),
+       ('Create animal', 'create_animals', 'Animals'),
        ('Edit animal', 'edit_animals', 'Animals'),
        ('Delete animal', 'delete_animals', 'Animals'),
        ('Create food', 'create_foods', 'Foods'),
@@ -9,12 +12,14 @@ VALUES ('Create animal', 'create_animals', 'Animals'),
        ('Create shopping', 'create_shopping', 'Shopping'),
        ('Edit shopping', 'edit_shopping', 'Shopping'),
        ('Delete shopping', 'delete_shopping', 'Shopping'),
-       ('Create zone', 'create_zones', 'Zones'),
+       ('View zones', 'create_zones', 'Zones'),
+       ('Create zone', 'view_zones', 'Zones'),
        ('Edit zone', 'edit_zones', 'Zones'),
        ('Delete zone', 'delete_zones', 'Zones'),
        ('Create employee', 'create_employees', 'Employees'),
        ('Edit employee', 'edit_employees', 'Employees'),
        ('Delete employee', 'delete_employees', 'Employees'),
+       ('View regions', 'view_regions', 'Regions'),
        ('Create region', 'create_regions', 'Regions'),
        ('Edit region', 'edit_regions', 'Regions'),
        ('Delete region', 'delete_regions', 'Regions'),

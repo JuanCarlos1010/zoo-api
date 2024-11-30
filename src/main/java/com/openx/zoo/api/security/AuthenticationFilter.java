@@ -35,15 +35,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        String headerValue = request.getHeader(SecurityEnvs.HTTP_HEADER_TOKEN);
-        if (headerValue == null || !headerValue.startsWith(SecurityEnvs.TOKEN_PREFIX)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String token = headerValue.substring(SecurityEnvs.TOKEN_PREFIX.length());
-
         try {
+            String headerValue = request.getHeader(SecurityEnvs.HTTP_HEADER_TOKEN);
+            if (headerValue == null || !headerValue.startsWith(SecurityEnvs.TOKEN_PREFIX)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            String token = headerValue.substring(SecurityEnvs.TOKEN_PREFIX.length());
+
             JWTClaimsSet claims = abstractSecurity.verifyToken(token);
             long userId = Long.parseLong(claims.getSubject());
             User user = userRepository.findById(userId)
@@ -57,6 +57,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         } catch (UnauthorizedException | BadRequestException | InternalServerException e) {
             throw e;
+        } catch (ParseException e) {
+            throw new UnauthorizedException(e);
         } catch (Exception e) {
             throw new InternalServerException(e);
         }

@@ -35,7 +35,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PostMapping(path = "/account")
+    @PostMapping(path = "/sign-up")
     public ResponseEntity<ApiResponse<UserDTO>> signUp(@RequestBody UserRequest requestBody) {
         UserDTO userResponse = userMapper.toDTO(authenticationService.signUp(requestBody));
         ApiResponse<UserDTO> apiResponse = new ApiResponse<>(userResponse);
