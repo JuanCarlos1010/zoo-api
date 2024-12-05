@@ -52,6 +52,7 @@ public class AuthenticationService {
             String token = securityService.signToken(user, permissions);
             return UserResponse.builder()
                     .token(token)
+                    .userId(user.getId())
                     .username(user.getUsername())
                     .fullName(user.getFullName())
                     .roleName(user.getRole().getName())

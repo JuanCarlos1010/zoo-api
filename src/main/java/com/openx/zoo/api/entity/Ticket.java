@@ -22,6 +22,7 @@ public class Ticket {
     private boolean status;
     private double price;
     private String type;
+    private String code;
 
     @Column(name = "visit_date")
     private LocalDateTime visitDate;

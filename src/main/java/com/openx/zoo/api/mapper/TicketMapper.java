@@ -12,6 +12,7 @@ public class TicketMapper extends AbstractMapper<Ticket, TicketDTO> {
     public TicketDTO toDTO(Ticket ticket) {
         return TicketDTO.builder()
                 .id(ticket.getId())
+                .code(ticket.getCode())
                 .type(ticket.getType())
                 .price(ticket.getPrice())
                 .status(ticket.isStatus())
@@ -30,6 +31,7 @@ public class TicketMapper extends AbstractMapper<Ticket, TicketDTO> {
         return Ticket.builder()
                 .id(ticket.getId())
                 .type(ticket.getType())
+                .code(ticket.getCode())
                 .price(ticket.getPrice())
                 .status(ticket.isStatus())
                 .visitDate(ticket.getVisitDate())

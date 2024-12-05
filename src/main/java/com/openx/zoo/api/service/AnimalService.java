@@ -1,5 +1,6 @@
 package com.openx.zoo.api.service;
 
+import com.openx.zoo.api.exception.BadRequestException;
 import com.openx.zoo.api.exception.InternalServerException;
 import com.openx.zoo.api.exception.NotFoundException;
 import com.openx.zoo.api.entity.Animal;
@@ -24,7 +25,7 @@ public class AnimalService {
 
     public List<Animal> findAllAnimals() {
         try {
-            return animalRepository.findAll();
+            return animalRepository.findAllByDeletedAtIsNull();
         } catch (Exception e) {
             throw new InternalServerException(e);
         }
@@ -39,7 +40,7 @@ public class AnimalService {
     public Animal createAnimal(Animal animal) {
         Zone zone = animal.getZone();
         if (zone == null) {
-            throw new NotFoundException("El campo zona es obligatorio");
+            throw new BadRequestException("El campo zona es obligatorio");
         } else {
             Optional<Zone> zoneOpt = zoneRepository.findById(zone.getId());
             if (zoneOpt.isEmpty()) {
@@ -47,7 +48,7 @@ public class AnimalService {
             }
             Optional<Animal> animalOpt = animalRepository.getByName(animal.getName());
             if (animalOpt.isPresent()) {
-                throw new NotFoundException("Animal con el nombre " + animal.getName() + " ya existe");
+                throw new BadRequestException("Animal con el nombre '" + animal.getName() + "' ya existe");
             }
         }
         animal.setZone(zone);
@@ -63,13 +64,15 @@ public class AnimalService {
         }
         return animalRepository.findById(updateAnimal.getId())
                 .map(animal -> {
+                    animal.setZone(zone);
+                    animal.setAge(updateAnimal.getAge());
                     animal.setName(updateAnimal.getName());
-                    animal.setBirthdate(updateAnimal.getBirthdate());
-                    animal.setEntryDate(updateAnimal.getEntryDate());
+                    animal.setUpdatedAt(LocalDateTime.now());
                     animal.setGender(updateAnimal.getGender());
                     animal.setSpecies(updateAnimal.getSpecies());
-                    animal.setAge(updateAnimal.getAge());
-                    animal.setUpdatedAt(updateAnimal.getUpdatedAt());
+                    animal.setBirthdate(updateAnimal.getBirthdate());
+                    animal.setEntryDate(updateAnimal.getEntryDate());
+                    animal.setDescription(updateAnimal.getDescription());
                     return animalRepository.save(animal);
                 })
                 .orElseThrow(() -> new NotFoundException("Animal no econtrado con id: " + updateAnimal.getId()));
@@ -77,8 +80,15 @@ public class AnimalService {
 
     @Transactional
     public boolean deleteAnimal(Long id) {
-        Animal animal = getAnimalById(id);
-        animalRepository.delete(animal);
-        return true;
+        try {
+            Animal animal = getAnimalById(id);
+            animal.setDeletedAt(LocalDateTime.now());
+            animalRepository.save(animal);
+            return true;
+        } catch (NotFoundException | BadRequestException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new InternalServerException(e);
+        }
     }
 }

@@ -17,6 +17,8 @@ public class ZoneMapper extends AbstractMapper<Zone, ZoneDTO> {
                 .capacity(zone.getCapacity())
                 .createdAt(zone.getCreatedAt())
                 .updatedAt(zone.getUpdatedAt())
+                .regionId(zone.getRegion().getId())
+                .regionName(zone.getRegion().getName())
                 .build();
     }
 

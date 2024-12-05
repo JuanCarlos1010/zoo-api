@@ -27,7 +27,7 @@ public class Animal {
 
     private String gender;
     private String species;
-    private int age;
+    private String age;
     private String description;
 
     @Column(name = "created_at")

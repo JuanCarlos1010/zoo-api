@@ -10,6 +10,7 @@ public class TicketDTO {
     private long id;
     private long userId;
     private String type;
+    private String code;
     private double price;
     private boolean status;
     private String userName;

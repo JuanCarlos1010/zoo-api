@@ -20,6 +20,7 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDTO> {
                 .updatedAt(animal.getUpdatedAt())
                 .zoneId(animal.getZone().getId())
                 .zoneName(animal.getZone().getName())
+                .description(animal.getDescription())
                 .build();
     }
 
@@ -34,6 +35,7 @@ public class AnimalMapper extends AbstractMapper<Animal, AnimalDTO> {
                 .birthdate(animal.getBirthdate())
                 .updatedAt(animal.getUpdatedAt())
                 .zone(new Zone(animal.getZoneId()))
+                .description(animal.getDescription())
                 .build();
     }
 }

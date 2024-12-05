@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Builder
 public class AnimalDTO {
     private long id;
-    private int age;
     private long zoneId;
+    private String age;
     private String name;
     private String gender;
     private String species;
