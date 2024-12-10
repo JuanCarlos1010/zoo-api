@@ -21,7 +21,7 @@ public class RegionService {
 
     public List<Region> findAllRegions() {
         try {
-            return regionRepository.findAll();
+            return regionRepository.findByDeletedAtIsNull();
         } catch (Exception e) {
             throw new InternalServerException(e);
         }
@@ -34,7 +34,6 @@ public class RegionService {
 
     @Transactional
     public Region createRegion(Region region) {
-
         try {
             Optional<Region> regionOpt = regionRepository.findByName(region.getName());
             if (regionOpt.isPresent()) {
@@ -56,6 +55,7 @@ public class RegionService {
                     .map(region -> {
                         region.setName(updateRegion.getName());
                         region.setUpdatedAt(LocalDateTime.now());
+                        region.setDescription(updateRegion.getDescription());
                         return regionRepository.save(region);
                     })
                     .orElseThrow(() -> new NotFoundException("Region no encontrada con el id: " + updateRegion.getId()));
@@ -68,9 +68,15 @@ public class RegionService {
 
     @Transactional
     public boolean deleteRegion(Long id) {
-        Region region = getRegionById(id);
-        region.setDeletedAt(LocalDateTime.now());
-        regionRepository.save(region);
-        return true;
+        try {
+            Region region = getRegionById(id);
+            region.setDeletedAt(LocalDateTime.now());
+            regionRepository.save(region);
+            return true;
+        } catch (NotFoundException | BadRequestException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new InternalServerException(e);
+        }
     }
 }

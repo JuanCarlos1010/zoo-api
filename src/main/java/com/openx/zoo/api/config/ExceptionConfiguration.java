@@ -40,12 +40,14 @@ public class ExceptionConfiguration {
 
     @ExceptionHandler(InternalServerException.class)
     public ResponseEntity<ApiResponse<Void>> handleInternalError(InternalServerException exception) {
+        exception.printStackTrace(System.err);
         ApiResponse<Void> apiResponse = new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException(Exception exception) {
+        exception.printStackTrace(System.err);
         ApiResponse<Void> apiResponse = new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }

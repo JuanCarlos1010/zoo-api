@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 import java.util.UUID;
 
 public class UniqueCodeGenerator {
-    private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+    private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789987654321ZYXWVUTSRQPONMLKJIHGFEDCBA";
     private static final int LENGTH = 15;
 
     public static String generate() {

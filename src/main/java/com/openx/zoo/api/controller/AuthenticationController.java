@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,16 +44,18 @@ public class AuthenticationController {
     }
 
     @PutMapping(path = "/account")
-    public ResponseEntity<ApiResponse<UserDTO>> updateAccount(@RequestBody UserDTO requestBody) {
-        UserDTO userResponse = userMapper.toDTO(authenticationService.updateAccount(userMapper.toEntity(requestBody)));
+    public ResponseEntity<ApiResponse<UserDTO>> updateAccount(
+            @RequestParam(name = "updatePassword", defaultValue = "false") boolean updatePassword,
+            @RequestBody UserRequest requestBody) {
+        UserDTO userResponse = userMapper.toDTO(authenticationService.updateAccount(updatePassword, requestBody));
         ApiResponse<UserDTO> apiResponse = new ApiResponse<>(userResponse);
         return ResponseEntity.ok(apiResponse);
     }
 
     @DeleteMapping(path = "/account/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteAccount(@PathVariable(name = "id") long accountId) {
-        Void response = authenticationService.deleteAccount(accountId);
-        ApiResponse<Void> apiResponse = new ApiResponse<>(response);
+    public ResponseEntity<ApiResponse<Boolean>> deleteAccount(@PathVariable(name = "id") long accountId) {
+        boolean response = authenticationService.deleteAccount(accountId);
+        ApiResponse<Boolean> apiResponse = new ApiResponse<>(response);
         return ResponseEntity.ok(apiResponse);
     }
 }

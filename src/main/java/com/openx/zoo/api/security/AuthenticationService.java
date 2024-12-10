@@ -67,6 +67,9 @@ public class AuthenticationService {
     @Transactional
     public User signUp(UserRequest request) {
         try {
+            if(request.getPassword() == null)
+                throw new BadRequestException("La contraseña es incorrecta");
+
             if(!securityService.validPassword(request.getPassword())) {
                 throw new BadRequestException("La contraseña no debe contener caracteres especiales");
             }
@@ -74,8 +77,8 @@ public class AuthenticationService {
             if(request.getFullName() == null || request.getFullName().length() < 3)
                 throw new BadRequestException("Nombre de usuario incorrecto");
 
-            Role role = roleRepository.findById(request.getRole())
-                    .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + request.getRole()));
+            Role role = roleRepository.findById(request.getRoleId())
+                    .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + request.getRoleId()));
 
             Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
             if (userOpt.isPresent()) {
@@ -102,16 +105,14 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public User updateAccount(User body) {
+    public User updateAccount(boolean updatePassword, UserRequest body) {
         try {
-            if(!securityService.validPassword(body.getPassword())) {
-                throw new BadRequestException("La contraseña no debe contener caracteres especiales");
-            }
-
             if(body.getFullName() == null || body.getFullName().length() < 3)
                 throw new BadRequestException("Nombre de usuario incorrecto");
 
-            Role roleRequest = body.getRole();
+            Role roleRequest = roleRepository.findById(body.getRoleId())
+                    .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + body.getRoleId()))  ;
+;
             if (roleRequest == null) {
                 throw new BadRequestException("El campo rol es obligatorio");
             }
@@ -119,12 +120,18 @@ public class AuthenticationService {
                     .map(user -> {
                         Role role = roleRepository.findById(roleRequest.getId())
                                 .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + roleRequest.getId()));
-
+                        if(updatePassword) {
+                            if(!securityService.validPassword(body.getPassword())) {
+                                throw new BadRequestException("Contraseña no debe contener caracteres especiales");
+                            }
+                            user.setPassword(securityService.encryptPassword(body.getPassword()));
+                        }
                         user.setRole(role);
                         user.setPhone(body.getPhone());
                         user.setAddress(body.getAddress());
                         user.setUsername(body.getUsername());
-                        user.setUpdatedAt(body.getUpdatedAt());
+                        user.setFullName(body.getFullName());
+                        user.setUpdatedAt(LocalDateTime.now());
                         user.setDocumentNumber(body.getDocumentNumber());
                         return userRepository.save(user);
                     })
@@ -136,7 +143,8 @@ public class AuthenticationService {
         }
     }
 
-    public Void deleteAccount(long accountId) {
+    @Transactional
+    public boolean deleteAccount(long accountId) {
         try {
             userRepository.findById(accountId)
                    .map(user -> {
@@ -144,7 +152,7 @@ public class AuthenticationService {
                        return userRepository.save(user);
                     })
                    .orElseThrow(() -> new NotFoundException("Usuario no encontrado con el id: " + accountId));
-            return null;
+            return true;
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {

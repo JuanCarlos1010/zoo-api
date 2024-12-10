@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS users
     deleted_at      TIMESTAMP          NULL,
     CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES roles (id),
     INDEX (username)
-);
+) AUTO_INCREMENT=122812;
 
 CREATE TABLE IF NOT EXISTS tickets
 (
@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS employees
     address     VARCHAR(255)        NULL,
     phone       VARCHAR(15)         NULL,
     position    VARCHAR(50)         NULL,
+    documentNumber VARCHAR(50)         NULL,
     description VARCHAR(255)        NULL,
     created_at  TIMESTAMP           NOT NULL,
     updated_at  TIMESTAMP           NULL,
@@ -86,6 +87,7 @@ CREATE TABLE IF NOT EXISTS regions
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     name       VARCHAR(100) UNIQUE NOT NULL,
+    description VARCHAR(255) NULL,
     created_at TIMESTAMP           NOT NULL,
     updated_at TIMESTAMP           NULL,
     deleted_at TIMESTAMP           NULL,
@@ -122,6 +124,44 @@ CREATE TABLE IF NOT EXISTS animals
     deleted_at  TIMESTAMP    NULL,
     CONSTRAINT fk_animal_zone FOREIGN KEY (zone_id) REFERENCES zones (id),
     INDEX (name)
+) AUTO_INCREMENT=1562;
+
+CREATE TABLE IF NOT EXISTS medicines
+(
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,
+    description     VARCHAR(255) NULL,
+    expired_at      DATE NULL,
+    manufacturer    VARCHAR(255) NULL,
+    created_at      TIMESTAMP    NOT NULL,
+    updated_at      TIMESTAMP    NULL,
+    deleted_at      TIMESTAMP    NULL
+);
+
+CREATE TABLE IF NOT EXISTS treatments
+(
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    animal_id    INT          NULL,
+    veterinarian_id  INT          NULL,
+    diagnosis    VARCHAR(255) NULL,
+    comments   VARCHAR(255) NULL,
+    apply_date   TIMESTAMP    NOT NULL,
+    created_at   TIMESTAMP    NOT NULL,
+    updated_at   TIMESTAMP    NULL,
+    deleted_at   TIMESTAMP    NULL,
+    CONSTRAINT fk_treatment_animal FOREIGN KEY (animal_id) REFERENCES animals (id),
+    CONSTRAINT fk_treatment_veterinarian FOREIGN KEY (veterinarian_id) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS treatment_medicines
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    medicine_id  INT,
+    treatment_id INT,
+    dosage      VARCHAR(255) NOT NULL,
+    comment     VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_treatment_medicine_medicine FOREIGN KEY (medicine_id) REFERENCES medicines (id),
+    CONSTRAINT fk_treatment_medicine_treatment FOREIGN KEY (treatment_id) REFERENCES treatments (id)
 );
 
 CREATE TABLE IF NOT EXISTS foods
@@ -131,6 +171,7 @@ CREATE TABLE IF NOT EXISTS foods
     name             VARCHAR(255) NOT NULL,
     type             VARCHAR(50)  NULL,
     unit_measurement VARCHAR(15)  NULL,
+    expired_at       DATE    NULL,
     created_at       TIMESTAMP    NOT NULL,
     updated_at       TIMESTAMP    NULL,
     deleted_at       TIMESTAMP    NULL,
@@ -144,6 +185,7 @@ CREATE TABLE IF NOT EXISTS suppliers
     email      VARCHAR(100) UNIQUE,
     phone      VARCHAR(15)  NULL,
     address    VARCHAR(255) NULL,
+    documentNumber VARCHAR(50)         NULL,
     created_at TIMESTAMP    NOT NULL,
     updated_at TIMESTAMP    NULL,
     deleted_at TIMESTAMP    NULL,

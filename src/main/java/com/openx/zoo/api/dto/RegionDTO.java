@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class RegionDTO {
     private long id;
     private String name;
+    private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

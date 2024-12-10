@@ -20,6 +20,7 @@ public class Region {
     private long id;
 
     private String name;
+    private String description;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

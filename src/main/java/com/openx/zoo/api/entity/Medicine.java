@@ -1,33 +1,35 @@
 package com.openx.zoo.api.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
-@Table(name = "employees")
-public class Employee {
-
+@Builder
+@Table(name = "medicines")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Medicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
-    private String email;
-    private String address;
-    private String phone;
-    private String position;
     private String description;
+    private String manufacturer;
 
-    @Column(name = "document_number")
-    private String documentNumber;
+    @Column(name = "expired_at")
+    private LocalDate expiredAt;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -38,7 +40,7 @@ public class Employee {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    public Employee(long employeeId) {
-        this.id = employeeId;
+    public Medicine(long medicineId) {
+        this.id = medicineId;
     }
 }

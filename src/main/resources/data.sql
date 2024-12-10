@@ -1,5 +1,15 @@
 USE db_zoo_management;
-INSERT INTO roles (name, created_at) VALUES ('Testing', now());
+INSERT INTO roles(id, name, created_at) VALUES (1, 'Veterinario', now());
+INSERT INTO roles(id, name, created_at) VALUES (2, 'Admin', now());
+
+INSERT INTO regions(name, created_at) VALUES ('COSTA', now());
+INSERT INTO regions(name, created_at) VALUES ('SIERRA', now());
+INSERT INTO regions(name, created_at) VALUES ('SELVA', now());
+
+INSERT INTO users(role_id, username, full_name, password, document_number, created_at)
+VALUES (1, 'admin@zoo.com.pe', 'Zoo Application', '$2a$10$VQ2H/ISb7ltZviGHhrx9.umzhe/B5nx8.sWw1oWZLpQv3ev3OghtO', NULL, now());
+
+
 INSERT INTO permissions(name, system_name, module_name)
 VALUES ('View dashboard', 'view_dashboard', 'Dashboard'),
        ('View animals', 'view_animals', 'Animals'),
@@ -40,11 +50,5 @@ VALUES ('View dashboard', 'view_dashboard', 'Dashboard'),
        ('View supplier', 'view_suppliers', 'Suppliers'),
        ('Create supplier', 'create_suppliers', 'Suppliers'),
        ('Edit supplier', 'edit_suppliers', 'Suppliers'),
-       ('Delete supplier', 'delete_suppliers', 'Suppliers');
-
-select * from permissions where system_name like 'view_%';
-# insert into role_permissions(role_id, permission_id, created_at)
-# select 1, id, now()  from permissions where system_name like 'create_%';
-
-select * from role_permissions;
-# delete from permissions where id>0;
+       ('Delete supplier', 'delete_suppliers', 'Suppliers'),
+       ('View veterinarian', 'view_vet', 'Veterinarian');

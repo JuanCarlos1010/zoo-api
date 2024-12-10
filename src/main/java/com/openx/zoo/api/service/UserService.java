@@ -18,7 +18,7 @@ public class UserService {
 
     public List<User> findAllUsers() {
         try {
-            return userRepository.findAll();
+            return userRepository.findAllByDeletedAtIsNull();
         } catch (Exception e) {
             throw new InternalServerException(e);
         }

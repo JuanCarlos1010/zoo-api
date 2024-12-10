@@ -7,6 +7,7 @@ import com.openx.zoo.api.entity.Permission;
 import com.openx.zoo.api.entity.Role;
 import com.openx.zoo.api.entity.RolePermission;
 import com.openx.zoo.api.repository.RolePermissionRepository;
+import com.openx.zoo.api.repository.RoleRepository;
 import com.openx.zoo.api.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,14 +17,20 @@ import java.util.Optional;
 public class PermissionService {
     private final RolePermissionRepository rolePermissionRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public PermissionService(RolePermissionRepository rolePermissionRepository, UserRepository userRepository) {
+    public PermissionService(RolePermissionRepository rolePermissionRepository, UserRepository userRepository, RoleRepository roleRepository) {
         this.rolePermissionRepository = rolePermissionRepository;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<Permission> findAllPermissions() {
         return rolePermissionRepository.findPermissions();
+    }
+
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
     }
 
     public Permission findPermissionById(long id) {

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -25,6 +26,9 @@ public class Food {
 
     @Column(name = "unit_measurement")
     private String unitMeasurement;
+
+    @Column(name = "expired_at")
+    private LocalDate expiredAt;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

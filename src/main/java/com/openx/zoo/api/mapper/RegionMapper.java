@@ -14,6 +14,7 @@ public class RegionMapper extends AbstractMapper<Region, RegionDTO> {
                 .name(region.getName())
                 .createdAt(region.getCreatedAt())
                 .updatedAt(region.getUpdatedAt())
+                .description(region.getDescription())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class RegionMapper extends AbstractMapper<Region, RegionDTO> {
                 .name(regionDTO.getName())
                 .createdAt(regionDTO.getCreatedAt())
                 .updatedAt(regionDTO.getUpdatedAt())
+                .description(regionDTO.getDescription())
                 .build();
     }
 }

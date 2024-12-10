@@ -1,8 +1,10 @@
 package com.openx.zoo.api.controller;
 
+import com.openx.zoo.api.dto.RoleDTO;
 import com.openx.zoo.api.entity.Permission;
 import com.openx.zoo.api.entity.Role;
 import com.openx.zoo.api.entity.RolePermission;
+import com.openx.zoo.api.mapper.RoleMapper;
 import com.openx.zoo.api.service.PermissionService;
 import com.openx.zoo.api.utils.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,11 @@ import java.util.List;
 @RequestMapping(path = "/security")
 public class SecurityController {
     private final PermissionService permissionService;
+    private final RoleMapper roleMapper;
 
-    public SecurityController(PermissionService permissionService) {
+    public SecurityController(PermissionService permissionService, RoleMapper roleMapper) {
         this.permissionService = permissionService;
+        this.roleMapper = roleMapper;
     }
 
     @RequestMapping("/permissions")
@@ -51,6 +55,13 @@ public class SecurityController {
     public ResponseEntity<ApiResponse<Role>> findRoleById(@PathVariable(name = "id") long roleId) {
         Role role = permissionService.findRoleById(roleId);
         ApiResponse<Role> apiResponse = new ApiResponse<>(role);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<ApiResponse<List<RoleDTO>>> findAllRoles() {
+        List<RoleDTO> roles = roleMapper.toDTO(permissionService.findAllRoles());
+        ApiResponse<List<RoleDTO>> apiResponse = new ApiResponse<>(roles);
         return ResponseEntity.ok(apiResponse);
     }
 

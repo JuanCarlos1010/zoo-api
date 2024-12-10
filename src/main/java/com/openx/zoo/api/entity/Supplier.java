@@ -23,6 +23,10 @@ public class Supplier {
     private String email;
     private String phone;
     private String address;
+    private String description;
+
+    @Column(name = "document_number")
+    private String documentNumber;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

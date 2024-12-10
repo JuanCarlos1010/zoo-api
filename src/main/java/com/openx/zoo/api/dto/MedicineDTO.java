@@ -2,19 +2,17 @@ package com.openx.zoo.api.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class EmployeeDTO {
+public class MedicineDTO {
     private long id;
     private String name;
-    private String email;
-    private String address;
-    private String phone;
-    private String position;
     private String description;
-    private String documentNumber;
+    private String manufacturer;
+    private LocalDate expiredAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
